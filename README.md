@@ -1,2 +1,0 @@
-# Trade-Game
-Trading Game
