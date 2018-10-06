@@ -39,7 +39,8 @@ if (localStorage.getItem("money") === null) {
     timer = new Timer();
 }
 else {
-    ship = new Ship(localStorage.getItem(""));
+    // location = "Houston", hull = 5000, money = 1000, hold = 100, fuel = 100
+    ship = new Ship(localStorage.getItem("location"), localStorage.getItem("hull"), localStorage.getItem("money"),       localStorage.getItem("hold"), localStorage.getItem("fuel"), JSON.parse(localStorage.getItem("cargo")));
     timer = new Timer();
 }
 var market = new Market();

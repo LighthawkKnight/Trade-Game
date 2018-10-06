@@ -13,10 +13,11 @@
 // Miami to Lisbon - 4478 nm, 37 days
 // Lisbon to Elizabeth - 6541 nm, 55 days
 // Elizabeth to Mumbai - 5098 nm, 42.5 days
+// at 5 knots
 const   HouToMia = 10,
         MiaToLis = 37,
         LisToEli = 55,
-        EliToMum = 42.5;
+        EliToMum = 43;
 
 function displayPrices(){
     // Display to buy and sell screens
@@ -127,7 +128,7 @@ function voyage(destination, weather) {
     // On nav button click
     document.querySelector('#navigate-id').addEventListener("click", function() {
         Ship.location = destination;
-        calculateTime(Ship.location, destination);
+        Timer.setTime(calculateTime(Ship.location, destination));
         localStorage.setItem("location", Ship.location);
     });
 }
