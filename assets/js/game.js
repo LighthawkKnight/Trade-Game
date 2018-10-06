@@ -16,20 +16,29 @@ function displayPrices(){
 function sell(name, amount) {
     var item = Ship.getCargo(name);
     if (item) {
-        if (amount <= item[1])
+        if (amount <= item[1]) {
             Ship.setCargo(name, item[1] - amount);
             // may have to add a listener, based on the database perhaps
-            Ship.setMoney(Ship.getMoney() + calculatePrice(name, amount));
+            Ship.money += calculatePrice(name, amount);
+            localStorage.setItem("money", Ship.money);
+        }
+        else
+            alert("You do not possess this many " + name);
     }
     else
         console.log("Not found");  // Change to functionality
 }
 
 function buy(name, amount) {
-    var item = Ship.setCargo(amount);
+    var item = Ship.getCargo(name);
     if (item) {
-        Ship.setCargo(name, Ship.getCargo(name, item[1] + amount))
-        Ship.setMoney(Ship.getMoney() - calculatePrice(name, amount));
+        if (Ship.isSpace(amount)) {
+            Ship.setCargo(name, Ship.getCargo(name, item[1] + amount))
+            Ship.money -= calculatePrice(name, amount);
+            localStorage.setItem("money", Ship.money);
+        }
+        else
+            alert("Not enough in space in your cargo hold.");
     }
     else
         console.log("Not found");
@@ -48,6 +57,10 @@ function voyage(destination, weather) {
     // Calculate distance from current location to 'destination'
     // Calculate weather factors
     // Use those to determine water usage / hull damage / cargo loss
-    Ship.
-    Ship.setlocation = destination;
+    // On nav button click
+    document.querySelector('#navigate-id').addEventListener("click", function() {
+        Ship.location = destination;
+        localStorage.setItem("location", Ship.location);
+    });
 }
+
