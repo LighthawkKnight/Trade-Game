@@ -1,0 +1,90 @@
+body, html {
+    height: 100%;
+}
+
+.bg { 
+    /* The image used */
+    background-image: url("https://slack-imgs.com/?c=1&url=https://wallpaper.wiki/wp-content/uploads/2017/04/wallpaper.wiki-Antique-Map-Background-Full-HD-PIC-WPC003274.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#Guest {
+   position: absolute;
+   top: 45%;
+   left: 40%;
+}
+
+#showLog {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+}
+
+h1 {
+    top: 20%;
+    left:35%;
+    position: absolute;
+}
+
+/*----------------------------- index --------------------------------------*/
+
+.bg2 {
+    background-image: url("http://blogs.discovermagazine.com/d-brief/files/2016/11/Mercator_projection_SW.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;  
+}
+
+#currentInfo {
+    float: right;
+}
+
+#port1 {
+    position: absolute;
+    left: 22%;
+    top: 35%;
+}
+
+#port2 {
+    position: absolute;
+    left: 27%;
+    top: 38.3%;
+}
+
+#port3 {
+    position: absolute;
+    left: 46%;
+    top: 30%;
+}
+
+#port4 {
+    position: absolute;
+    left: 55%;
+    top: 66%;
+}
+
+#port5 {
+    position: absolute;
+    right: 29%;
+    top: 40%;
+
+}
+
+.portOptions {
+    display: inline-block;
+    text-align: center;
+    margin: 40px;
+    padding: 30px;
+}
