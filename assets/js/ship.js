@@ -4,13 +4,13 @@ const defaultCargo = [["Coffee",0], ["Spices",0], ["Gold",0], ["Food",0]];
 
 class Ship {
 
-    constructor(location = "London", hull = 5000, money = 1000, hold = 100, fuel = 100) {
+    constructor(location = "Houston", hull = 5000, money = 1000, hold = 100, fuel = 100) {
         this.location = location;
         this.hull = hull;
         this.money = money;
         this.hold = hold;
         this.fuel = fuel;
-        this.cargo = defualtCargo;
+        this.cargo = defaultCargo;
         localStorage.setItem("location", this.location);
         localStorage.setItem("money", this.money);
         localStorage.setItem("hull", this.hull);

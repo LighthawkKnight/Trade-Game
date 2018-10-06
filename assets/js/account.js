@@ -3,6 +3,8 @@ var Account = (function(){
     var loginDialog = document.querySelector('#login-dialog');
     var createAccountDialog = document.querySelector('#create-account-dialog');
     var loggedIn = false;
+    var playerName;
+    var accountName;
 
     // Create Account function.  Writes account info to firebase.
     function submitCreateAccount() {
@@ -73,8 +75,26 @@ var Account = (function(){
             closeLoginDialog();
             document.querySelector("#login").style.display = "none";
             document.querySelector("#logout").style.display = "block";
-            Chat.onlogin();
-            // Game.onlogin();
+            // test later
+            accountName = firebase.auth().currentUser;
+            playerName = firebase.auth().currentUser.displayName;
+            var ref = firebase.database().ref("/"+ accountName + "-" + playerName);
+            var dataExists = false;
+            ref.then (function(snapshot) {
+                dataExists = snapshot.exists();
+            })
+            if (dataExists) {
+                // load to localStorage
+                localStorage.setItem("location", Ship.location);
+                localStorage.setItem("money", Ship.money);
+                localStorage.setItem("hull", Ship.hull);
+                localStorage.setItem("hold", Ship.hold);
+                localStorage.setItem("fuel", Ship.fuel);
+                localStorage.setItem('cargo', JSON.stringify(Ship.cargo));
+            }
+            else {
+                
+            }
         }
         else {   // log out
             if (loggedIn) {
@@ -108,8 +128,10 @@ var Account = (function(){
 
     // public functions
     return {
-        // Initialize all authentication elements
-        init: function() {
+        // Initialize all authentication elements, requires account name and player name
+        init: function(account, player) {
+            accountName = account;
+            playerName = player;
             firebase.auth().onAuthStateChanged(authStateChangeListener);
             // showModal() makes the user not able to interact with other elsements like a pop up box or an alert
             // Login button on top right
@@ -118,13 +140,18 @@ var Account = (function(){
             });
             // Logout button to top right
             document.querySelector("#logout").addEventListener("click", function(){
-                firebase.auth().signOut();
-                var logoutMessage = $("<li>");
-                logoutMessage.html("<b>You have succesfully signed out!</b>");
-                Chat.messageList.append(logoutMessage);
+                if (confirm("Are you sure you want to logout?  Any unsaved changes will be lost!")) {
+                    localStorage.clear();
+                    firebase.auth().signOut();
+                }
             }, function(e) {
-                console.error("Logout error", e);            
+                console.error("Logout function error", e);            
             });
+
+            document.querySelector('#save').addEventListener("click",function(){
+                
+            });
+
             // Sign in button in the login window
             document.querySelector("#sign-in").addEventListener("click", signInWithEmailandPassword);
             // Google sign in from icon
