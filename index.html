@@ -55,8 +55,20 @@
     </div>
 
     <!--created 4 ports-->
-    <div class="port1">
-        <input type="image" src="http://www.shiptradecs.co.uk/img/2-port-of-hong-kong.jpg" name="saveForm" class="btTxt submit" id="saveForm" height="42" width="42"/>
+    <script>
+            function FunctionThree() {
+                var f = document.getElementById("port1");
+                if (f.style.display === "none") {
+                    f.style.display = "block"; 
+                } 
+                else {
+                    f.style.display = "none";
+            }
+        }
+    </script>
+
+    <div id="port1">
+        <button onclick="FunctionThree()">port1</button>
     </div>
 
     <div class="port2">
@@ -137,4 +149,5 @@
                         Create
                     </button>
                 </div>
-            </dialog>            
+            </dialog>     
+       
