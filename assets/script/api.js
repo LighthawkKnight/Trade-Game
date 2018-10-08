@@ -1,15 +1,22 @@
-//TODO add function for making marker on map
-
+// Port Marker mouse over information
 var houston_info = `<h2>great</h2>`;
 var miami_info = `<h2>keep calm on carry on</h2>`;
-
+// use for mode switch
 var mode = "";
+//switch to route setting mode and  clear animation Interval.
 $("#routeMode").on("click", function() {
   console.log("route mode now");
+  clearInterval(intervalID);
   mode = "route";
 });
+// this array include  the starting point and the ending point
 var marinePlanCoordinates = [];
+//Speed factor bigger and slower, recommend scope 20~800, default is 50. will be changed basing on the weather
+var boatSpeedFactor = 50;
 
+//days delay because of the weather
+var weatherCauseDelay = 0;
+var intervalID;
 // ship 1
 // var lineSymbol = {
 //   path:
@@ -37,12 +44,13 @@ var lineSymbolR = {
   fillOpacity: 1,
   strokeColor: "#393",
   rotation: 90,
-  scale: 1.2
+  scale: 1.2,
+  anchor: new google.maps.Point(600, 200)
 };
-// ship 3
-
+//!--------------------------------------------------------------------------------
+//!------------MAIN FUNCTION--------------------------
 function initMap() {
-  // lighthouse
+  //lighthouse icon and ship3(lineSymbol). Because of the anchor property , both of them must be stay inside //the main function
   var lighthouseIcon = {
     path:
       "M318.628,182.599c5.314-2.555,8.697-7.927,8.704-13.824V83.783c-0.066-1.039-0.238-2.068-0.512-3.072l-1.024-2.56v-1.024     l-1.024-2.048v-1.024l-1.536-1.536l-76.8-68.608c-5.831-5.215-14.649-5.215-20.48,0L150.18,72.007l-1.536,1.536v1.024     l-1.024,2.048v1.024l-1.024,2.56c-0.274,1.004-0.446,2.033-0.512,3.072v86.016c0.007,5.897,3.39,11.269,8.704,13.824     l-17.92,259.072H97.956v30.72h276.48v-30.72h-38.912L318.628,182.599z M251.556,99.143h45.056v54.784h-45.056V99.143z      M175.78,99.143h45.056v54.784H175.78V99.143z M176.804,294.727l113.152-78.336l3.584,54.784l-120.32,83.456L176.804,294.727z      M237.732,442.183l64.512-45.056l3.072,45.056H237.732z",
@@ -51,6 +59,7 @@ function initMap() {
     scale: 0.08,
     strokeColor: "black",
     strokeWeight: 2,
+    //adjust the distance between lighthouse and polyline
     anchor: new google.maps.Point(600, 200)
   };
 
@@ -64,6 +73,8 @@ function initMap() {
     scale: 0.1,
     anchor: new google.maps.Point(20, 400)
   };
+
+  // all the geography location used in this game.
   var houston = { lat: 29.795, lng: -95.236 };
   var miami = { lat: 25.813, lng: -80.134 };
   var weather1 = { lat: 30, lng: -74 };
@@ -76,7 +87,7 @@ function initMap() {
   var lightHouse1 = { lat: 11.421, lng: -23.532 }; //light house 1
   var lightHouse2 = { lat: -6.353, lng: 9.279 }; //light house 2
   var lightHouse3 = { lat: -37.442, lng: 17.433 }; //light house 3
-  // The map, centered at lisbon
+  //! The map, centered at lisbon
   var map = new google.maps.Map(document.getElementById("map"), {
     zoom: 3,
     center: lisbon,
@@ -234,19 +245,20 @@ function initMap() {
 
   // Use the marker to create route
   var preDefineCoordinates = [
-    { lat: 29.795, lng: -95.236 }, //houston
-    { lat: 25.813, lng: -80.134 }, //miami
-    { lat: 30, lng: -74 }, //ws1
-    { lat: 34, lng: -49 }, //ws2
-    { lat: 35, lng: -19 }, //ws3
-    { lat: 38.716, lng: -9.133 }, //lisbon
-    { lat: 11.421, lng: -23.532 }, //light house 1
-    { lat: -6.353, lng: 9.279 }, //light house 2
-    { lat: -37.442, lng: 17.433 }, //light house 3
-    { lat: -33.917, lng: 25.57 }, //elizabeth
-    { lat: -6, lng: 47 }, //ws4
-    { lat: 19.072, lng: 72.882 } //mumbai
+    houston,
+    miami,
+    weather1,
+    weather2,
+    weather3,
+    lisbon,
+    lightHouse1,
+    lightHouse2,
+    lightHouse3,
+    elizabeth_sa,
+    weather4,
+    mumbai
   ];
+  //the style of the preDefinedPath
   var preDefinePath = new google.maps.Polyline({
     path: preDefineCoordinates,
     geodesic: true,
@@ -254,9 +266,11 @@ function initMap() {
     strokeOpacity: 0.7,
     strokeWeight: 20
   });
+
+  //draw the preDefinePath(polyline)
   preDefinePath.setMap(map);
 
-  // The marker, positioned at Uluru
+  // draw the marker on the map
   var huston_marker = new google.maps.Marker({ position: houston, map: map });
   var lisbon_marker = new google.maps.Marker({ position: lisbon, map: map });
   var elizabeth_sa_marker = new google.maps.Marker({
@@ -281,8 +295,9 @@ function initMap() {
     icon: lighthouseIcon
   });
 
-  var infowindow = new google.maps.InfoWindow();
-  //Marker Click Action
+  //!------------------------------------------------Marker Click Action
+  //! In route setting mode,every click will return the marker index in the preDefinePath array
+  //! Which can easily transfer the starting point ,ending point and the points between them.
   huston_marker.addListener("click", function(event) {
     if (mode === "route") {
       marinePlanCoordinates.push(0);
@@ -301,7 +316,7 @@ function initMap() {
   });
   mumbai_marker.addListener("click", function(event) {
     if (mode === "route") {
-      marinePlanCoordinates.push(12);
+      marinePlanCoordinates.push(11);
     }
   });
   miami_marker.addListener("click", function(event) {
@@ -325,6 +340,7 @@ function initMap() {
     }
   });
   //Marker Mouseover Action
+  var infowindow = new google.maps.InfoWindow();
   miami_marker.addListener("mouseover", function() {
     infowindow.setContent(miami_info);
     infowindow.open(map, this);
@@ -334,20 +350,17 @@ function initMap() {
   });
 
   $("#routeConfirm").on("click", function initMap() {
-    console.log(marinePlanCoordinates);
-
+    // starting point index in preDefinePath array
     var a = marinePlanCoordinates[0];
+    //ending point index in perDefinePath array
     var b = marinePlanCoordinates[1];
-    console.log(a);
-    console.log(b);
-
+    // Get direction by compare the index
     if (a < b) {
       let marinePath_L_R_C = [];
       for (let j = a; j <= b; j++) {
         marinePath_L_R_C.push(preDefineCoordinates[j]);
       }
-      console.log(marinePath_L_R_C);
-
+      weatherFactor(marinePath_L_R_C);
       let marinePath_L_R = new google.maps.Polyline({
         path: marinePath_L_R_C,
         geodesic: true,
@@ -368,8 +381,8 @@ function initMap() {
       for (let x = a; x >= b; x--) {
         marinePath_R_L_C.push(preDefineCoordinates[x]);
       }
-      console.log(marinePath_R_L_C);
-
+      console.log("from r to l " + marinePath_R_L_C);
+      weatherFactor(marinePath_R_L_C);
       let marinePath_R_L = new google.maps.Polyline({
         path: marinePath_R_L_C,
         geodesic: true,
@@ -379,72 +392,145 @@ function initMap() {
         icons: [
           {
             icon: lineSymbolR,
-            offset: "90px"
+            offset: "100%"
           }
         ]
       });
       marinePath_R_L.setMap(map);
       animateBoat(marinePath_R_L);
     }
-
-    // var marinePath = new google.maps.Polyline({
-    //   path: marinePlanCoordinates,
-    //   geodesic: true,
-    //   strokeColor: "#FF0000",
-    //   strokeOpacity: 1.0,
-    //   strokeWeight: 6,
-    //   icons: [
-    //     {
-    //       icon: lineSymbol,
-    //       offset: "90px"
-    //     }
-    //   ]
-    // });
     function animateBoat(line) {
       var count = 0;
-      window.setInterval(function() {
+      var intervalID = window.setInterval(function() {
+        var icons = line.get("icons");
         count = (count + 1) % 200;
-
+        console.log("count = " + count);
+        if (count === 0) {
+          // stop the animate and initial
+          clearInterval(intervalID);
+          icons[0].icon = null;
+          marinePlanCoordinates = [];
+          mode = "";
+        }
         var icons = line.get("icons");
         icons[0].offset = count / 2 + "%";
         line.set("icons", icons);
-      }, 100);
+      }, boatSpeedFactor);
     }
   });
 }
+//!----------------Main Function Ends-----------------------------
 
-function port(location, price) {
-  this.location = location;
-  this.price = price;
+//!--------------------------------WEATHER API-----------------------------
+//!weatherFactor function need an array argument. the argument is an ordered list of location of the route.
+//!By now,in this game, we only use the wind speed as the weather factor. In future will add more
+//!the function will return boatSpeedFactor(the interval time for ship each movement)
+//!----------------------------------------------------------------------------
+function weatherFactor(coordinateArray) {
+  var APIKey = "166a433c57516f51dfab1f7edaed8413";
+  var windInfo = [];
+
+  for (let i = 0; i < coordinateArray.length; i++) {
+    console.log("this is i " + i);
+    lat = coordinateArray[i].lat;
+    console.log(lat);
+    lon = coordinateArray[i].lng;
+    console.log(lon);
+    var queryURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKey}`;
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response) {
+      windInfo.push(response.wind.speed);
+      console.log("wind info " + windInfo);
+      let m = Math.max(...windInfo);
+      console.log("m equal " + m);
+      if (m > 7 && m < 11) {
+        boatSpeedFactor = 100;
+        weatherCauseDelay = 9;
+      } else if (m <= 7) {
+        boatSpeedFactor = 20;
+        weatherCauseDelay = 0;
+      } else {
+        boatSpeedFactor = 200;
+        weatherCauseDelay = 15;
+      }
+    });
+  } //for loop end
+  // console.log("weather array " + windInfo);
+}
+//!--------------------------------COMMODITY PRICE-----------------------------
+//!Four functions for four commodity
+//!Each function will return an array which include 5 items. 5 items match 5 ports
+//!For arm, olive oil, cheese, need input nth day
+//!For fish, no argument needed
+//!----------------------------------------------------------------------------
+
+function armPrice(nth_day) {
+  var queryURL_arms =
+    "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=YAJjnPkiAFh1n3YazeZP";
+  $.ajax({
+    url: queryURL_arms,
+    method: "GET"
+  }).then(function(response) {
+    console.log(response);
+    var dailyPrice = response.dataset.data;
+    var armEachPort = dailyPrice[nth_day].slice(1);
+    console.log(armEachPort);
+  });
+  return armEachPort;
+}
+function oliveOilPrice(nth_day) {
+  var queryURL_olive_oil =
+    "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=YAJjnPkiAFh1n3YazeZP";
+  $.ajax({
+    url: queryURL_olive_oil,
+    method: "GET"
+  }).then(function(response) {
+    console.log(response);
+    var dailyPrice = response.dataset.data;
+    var ooEachPort1 = dailyPrice[nth_day].slice(1);
+    var ooEachPort2 = dailyPrice[nth_day + 1].slice(2);
+    var ooEachPort = ooEachPort1.concat(ooEachPort2);
+    // console.log(armEachPort);
+  });
+  return ooEachPort;
 }
 
-var lisbonPort = new port(lisbon, {
-  cheese: 37,
-  olive_oil: 34,
-  fish: 25,
-  arms: 120
-});
-var miamiPort = new port(miami, {
-  cheese: 52,
-  olive_oil: 7,
-  fish: 12,
-  arms: 145
-});
-var mumbaiPort = new port(mumbai, {
-  cheese: 46,
-  olive_oil: 121,
-  fish: 24,
-  arms: 72
-});
-var houstonPort = new port(huston, {
-  cheese: 31,
-  olive_oil: 39,
-  fish: 25,
-  arms: 102
-});
-var elizabethPort = new port(elizabeth, {
-  cheese: 45,
-  olive_oil: 30,
-  fish: 8,
-  arms: 181
-});
+function fishPrice() {
+  var fishEachPort = [];
+  queryURL_fish =
+    "https://www.quandl.com/api/v3/datasets/WGEC/WLD_ZINC.json?api_key=YAJjnPkiAFh1n3YazeZP";
+  $.ajax({
+    url: queryURL_fish,
+    method: "GET"
+  }).then(function(response) {
+    console.log(response);
+    var dailyPrice = response.dataset.data;
+    for (let i = 0; i < 5; i++) {
+      let c = Math.floor(56 * Math.random());
+      fishEachPort.push(dailyPrice[c]);
+    }
+    return fishEachPort;
+  });
+}
+
+function cheesePrice(nth_day) {
+  var queryURL_cheese =
+    "https://www.quandl.com/api/v3/datasets/CHRIS/CME_ED19.json?api_key=YAJjnPkiAFh1n3YazeZP";
+  var cheeseEachPort = [];
+  $.ajax({
+    url: queryURL_cheese,
+    method: "GET"
+  }).then(function(response) {
+    console.log(response);
+    let c = response.dataset.data[nth_day];
+    console.log(c);
+    let idx = [1, 2, 3, 4, 6];
+    for (let i = 0; i < 5; i++) {
+      let d = idx[i];
+      cheeseEachPort.push(c[d]);
+    }
+    return cheeseEachPort;
+  });
+}
