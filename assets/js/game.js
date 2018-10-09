@@ -30,8 +30,7 @@ function sell(name, amount) {
         if (amount <= item[1]) {
             Ship.setCargo(name, item[1] - amount);
             // may have to add a listener, based on the database perhaps
-            Ship.money += calculatePrice(name, amount);
-            localStorage.setItem("money", Ship.money);
+            Ship.setItem("money", Ship.money += calculatePrice(name, amount));
         }
         else
             alert("You do not possess this many " + name);
@@ -45,8 +44,7 @@ function buy(name, amount) {
     if (item) {
         if (Ship.isSpace(amount)) {
             Ship.setCargo(name, Ship.getCargo(name, item[1] + amount))
-            Ship.money -= calculatePrice(name, amount);
-            localStorage.setItem("money", Ship.money);
+            Ship.setItem("money", Ship.money -= calculatePrice(name, amount));
         }
         else
             alert("Not enough in space in your cargo hold.");
@@ -119,17 +117,18 @@ function calculateTime(start, end) {
     return null;
 }
 
+class Voyage {
 
-
-function voyage(destination, weather) {
+static voyage(destination, weather) {
     // Calculate distance from current location to 'destination'
     // Calculate weather factors
     // Use those to determine water usage / hull damage / cargo loss
     // On nav button click
     document.querySelector('#navigate-id').addEventListener("click", function() {
-        Ship.location = destination;
-        Timer.setTime(calculateTime(Ship.location, destination));
-        localStorage.setItem("location", Ship.location);
+        ship.setItem("location", destination);
+        timer.setTime(calculateTime(Ship.location, destination));
     });
+}
+
 }
 

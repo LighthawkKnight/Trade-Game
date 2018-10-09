@@ -11,17 +11,44 @@ class Ship {
         this.hold = hold;
         this.fuel = fuel;
         this.cargo = cargo;
-        localStorage.setItem("location", this.location);
-        localStorage.setItem("money", this.money);
-        localStorage.setItem("hull", this.hull);
-        localStorage.setItem("hold", this.hold);
-        localStorage.setItem("fuel", this.fuel);
-        localStorage.setItem('cargo', JSON.stringify(this.cargo));
+        // localStorage.setItem("location", this.location);
+        // localStorage.setItem("money", this.money);
+        // localStorage.setItem("hull", this.hull);
+        // localStorage.setItem("hold", this.hold);
+        // localStorage.setItem("fuel", this.fuel);
+        // localStorage.setItem('cargo', JSON.stringify(this.cargo));
     }
 
     // Setters
     setCargoHold(cargo) {
         this.cargo = JSON.parse(cargo);
+    }
+
+    setItem(item, value) {
+        switch(item) {
+            case "location":
+                this.location = value;
+                localStorage.setItem(item, value);
+                break;
+            case "hull":
+                this.hull = value;
+                localStorage.setItem(item, value);
+                break;
+            case "money":
+                this.money = money;
+                localStorage.setItem(item, value);
+                break;
+            case "hold":
+                this.hold = value;
+                localStorage.setItem(item, value);
+                break;
+            case "fuel":
+                this.fuel = value;
+                localStorage.setItem(item, value);
+                break;
+            default:
+                console.log("Invalid item - " + item);
+        }
     }
 
     setCargo(name, amount) {
