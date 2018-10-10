@@ -1,6 +1,6 @@
 // temp
 // because of firebase array handling, should get list of goods before writing functions for them
-const defaultCargo = [["Coffee",0], ["Spices",0], ["Gold",0], ["Food",0]];
+const defaultCargo = [["Arms",0], ["Olive Oil",0], ["Fish",0], ["Cheese",0]];
 
 class Ship {
 
@@ -94,4 +94,5 @@ class Ship {
     }
     
 }
+
 
