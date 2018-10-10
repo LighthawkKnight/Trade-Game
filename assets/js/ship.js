@@ -10,7 +10,10 @@ class Ship {
         this.money = money;
         this.hold = hold;
         this.fuel = fuel;
-        this.cargo = cargo;
+        if (cargo === defaultCargo)
+            this.cargo = cargo;
+        else
+            this.setCargoHold(cargo);
         localStorage.setItem("location", this.location);
         localStorage.setItem("money", this.money);
         localStorage.setItem("hull", this.hull);
@@ -22,6 +25,32 @@ class Ship {
     // Setters
     setCargoHold(cargo) {
         this.cargo = JSON.parse(cargo);
+    }
+
+    setItem(item, value) {
+        switch (item) {
+            case "location":
+                this.location = value;
+                localStorage.setItem(item, value);
+                break;
+            case "hull":
+                this.hull = value;
+                localStorage.setItem(item, value);
+                break;
+            case "money":
+                this.money = value;
+                localStorage.setItem(item, value);
+                break;
+            case "hold":
+                this.hold = value;
+                localStorage.setItem(item, value);
+                break;
+            case "fuel":
+                this.fuel = value;
+                localStorage.setItem(item, value);
+                break;
+            default:
+        }
     }
 
     setCargo(name, amount) {

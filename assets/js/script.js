@@ -24,7 +24,7 @@ document.querySelector("#logout").addEventListener("click", function(){
 
 // Start screen function
 function startScreen(){
-    // show this/ hide others
+    // show this/ hide others, probably will simply start that way
     // login
     // accountName = firebase.auth().currentUser;
     // playerName = firebase.auth().currentUser.displayName;
@@ -40,7 +40,7 @@ if (localStorage.getItem("money") === null) {
 }
 else {
     // location = "Houston", hull = 5000, money = 1000, hold = 100, fuel = 100
-    ship = new Ship(localStorage.getItem("location"), localStorage.getItem("hull"), localStorage.getItem("money"),       localStorage.getItem("hold"), localStorage.getItem("fuel"), JSON.parse(localStorage.getItem("cargo")));
+    ship = new Ship(localStorage.getItem("location"), localStorage.getItem("hull"), localStorage.getItem("money"), localStorage.getItem("hold"), localStorage.getItem("fuel"), JSON.parse(localStorage.getItem("cargo")));
     timer = new Timer();
 }
 var market = new Market();
