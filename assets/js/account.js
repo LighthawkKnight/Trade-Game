@@ -30,8 +30,6 @@ var Account = (function(){
         }
         else {
             //todo
-            // var data = {message: "Must enter valid name and email.  Passwords must be 4 characters or longer."};
-            // UI.snackbar(data);
         }
     }
 
@@ -85,12 +83,12 @@ var Account = (function(){
             })
             if (dataExists) {
                 // load to localStorage
-                localStorage.setItem("location", Ship.location);
-                localStorage.setItem("money", Ship.money);
-                localStorage.setItem("hull", Ship.hull);
-                localStorage.setItem("hold", Ship.hold);
-                localStorage.setItem("fuel", Ship.fuel);
-                localStorage.setItem('cargo', JSON.stringify(Ship.cargo));
+                localStorage.setItem("location", snapshot.val().location);
+                localStorage.setItem("money", snapshot.val().money);
+                localStorage.setItem("hull", snapshot.val().hull);
+                localStorage.setItem("hold", snapshot.val().hold);
+                localStorage.setItem("fuel", snapshot.val().fuel);
+                localStorage.setItem('cargo', snapshot.val().cargo);
             }
             else {
                 
@@ -126,12 +124,28 @@ var Account = (function(){
         return valid;    
     }
 
+    function save(){
+        var ref = firebase.database().ref("/"+ accountName + "-" + playerName);
+        ref.push().set({
+            location: localStorage.getItem("location"),
+            money: localStorage.getItem("money"),
+            hold: localStorage.getItem("hold"),
+            hull: localStorage.getItem("hull"),
+            fuel: localStorage.getItem("fuel"),
+            cargo: localStorage.getItem("cargo"),
+            }, function (error) {
+                if (error)
+                    console.error("Save error", error);
+                else
+                    alert("Save successful");
+            }
+        )
+    }
+
     // public functions
     return {
         // Initialize all authentication elements, requires account name and player name
-        init: function(account, player) {
-            accountName = account;
-            playerName = player;
+        init: function() {
             firebase.auth().onAuthStateChanged(authStateChangeListener);
             // showModal() makes the user not able to interact with other elsements like a pop up box or an alert
             // Login button on top right
@@ -149,7 +163,7 @@ var Account = (function(){
             });
 
             document.querySelector('#save').addEventListener("click",function(){
-                
+                save();
             });
 
             // Sign in button in the login window
@@ -163,5 +177,7 @@ var Account = (function(){
             // Create user account once create button is pressed
             document.querySelector("#entry-submit").addEventListener("click", submitCreateAccount);  
         },
+
+        // getAccountName: function(){};
     }
 })();

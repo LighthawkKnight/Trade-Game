@@ -29,7 +29,10 @@ function sell(name, amount) {
     if (item) {
         if (amount <= item[1]) {
             Ship.setCargo(name, item[1] - amount);
+<<<<<<< HEAD
             // may have to add a listener, based on the database perhaps
+=======
+>>>>>>> c53a6f920f8efd30b863fc75e7a9771740c49ae6
             Ship.setItem("money", Ship.money += calculatePrice(name, amount));
         }
         else
@@ -125,8 +128,13 @@ static voyage(destination, weather) {
     // Use those to determine water usage / hull damage / cargo loss
     // On nav button click
     document.querySelector('#navigate-id').addEventListener("click", function() {
+<<<<<<< HEAD
         ship.setItem("location", destination);
         timer.setTime(calculateTime(Ship.location, destination));
+=======
+        Ship.setItem("location", destination);
+        Timer.setTime(calculateTime(Ship.location, destination));
+>>>>>>> c53a6f920f8efd30b863fc75e7a9771740c49ae6
     });
 }
 
