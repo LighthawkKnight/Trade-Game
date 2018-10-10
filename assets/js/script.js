@@ -32,7 +32,7 @@ function startScreen(){
 
 // var ref = firebase.database().ref("/"+ accountName + "-" + playerName)
 
-Account.init(accountName, playerName);
+Account.init();
 
 if (localStorage.getItem("money") === null) {
     ship = new Ship();

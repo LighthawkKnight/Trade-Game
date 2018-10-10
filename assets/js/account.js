@@ -145,9 +145,7 @@ var Account = (function(){
     // public functions
     return {
         // Initialize all authentication elements, requires account name and player name
-        init: function(account, player) {
-            accountName = account;
-            playerName = player;
+        init: function() {
             firebase.auth().onAuthStateChanged(authStateChangeListener);
             // showModal() makes the user not able to interact with other elsements like a pop up box or an alert
             // Login button on top right
