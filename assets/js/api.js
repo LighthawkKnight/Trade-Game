@@ -1,16 +1,18 @@
+// two polyline
+var marinePath_R_L;
+var marinePath_L_R;
 // Port Marker mouse over information
 var houston_info = `<h2>great</h2>`;
 var miami_info = `<h2>keep calm on carry on</h2>`;
 // use for mode switch
 var mode = "";
 //switch to route setting mode and  clear animation Interval.
-$("#routeMode").on("click", function() {
+function setRouteMode() {
   console.log("route mode now");
   clearInterval(intervalID);
   mode = "route";
-});
-// this array include  the starting point and the ending point
-var marinePlanCoordinates = [];
+}
+
 //Speed factor bigger and slower, recommend scope 20~800, default is 50. will be changed basing on the weather
 var boatSpeedFactor = 50;
 
@@ -18,6 +20,23 @@ var boatSpeedFactor = 50;
 var weatherCauseDelay = 0;
 var intervalID;
 
+// all the geography location used in this game.
+var houston = { lat: 29.795, lng: -95.236 };
+var miami = { lat: 25.813, lng: -80.134 };
+var weather1 = { lat: 30, lng: -74 };
+var weather2 = { lat: 34, lng: -49 };
+var weather3 = { lat: 35, lng: -19 };
+var lisbon = { lat: 38.716, lng: -9.133 };
+var elizabeth_sa = { lat: -33.917, lng: 25.57 };
+var weather4 = { lat: -6, lng: 47 };
+var mumbai = { lat: 19.072, lng: 72.882 };
+var lightHouse1 = { lat: 11.421, lng: -23.532 }; //light house 1
+var lightHouse2 = { lat: -6.353, lng: 9.279 }; //light house 2
+var lightHouse3 = { lat: -37.442, lng: 17.433 }; //light house 3
+// origin choice
+var startPort = 0;
+// this array include  the starting point and the ending point
+var marinePlanCoordinates = [startPort];
 // ship 1
 // var lineSymbol = {
 //   path:
@@ -38,8 +57,8 @@ var intervalID;
 //   scale: 1.2
 // };
 
-//!--------------------------------------------------------------------------------
-//!------------MAIN FUNCTION--------------------------
+//!-----------------------------------------------------------------------------------
+//!--------------------------------MAIN FUNCTION---------------------------------------
 function initMap() {
   //lighthouse icon and ship3(lineSymbol). Because of the anchor property , both of them must be stay inside //the main function
   var lighthouseIcon = {
@@ -86,19 +105,7 @@ function initMap() {
     scale: 0.1,
     anchor: new google.maps.Point(20, 400)
   };
-  // all the geography location used in this game.
-  var houston = { lat: 29.795, lng: -95.236 };
-  var miami = { lat: 25.813, lng: -80.134 };
-  var weather1 = { lat: 30, lng: -74 };
-  var weather2 = { lat: 34, lng: -49 };
-  var weather3 = { lat: 35, lng: -19 };
-  var lisbon = { lat: 38.716, lng: -9.133 };
-  var elizabeth_sa = { lat: -33.917, lng: 25.57 };
-  var weather4 = { lat: -6, lng: 47 };
-  var mumbai = { lat: 19.072, lng: 72.882 };
-  var lightHouse1 = { lat: 11.421, lng: -23.532 }; //light house 1
-  var lightHouse2 = { lat: -6.353, lng: 9.279 }; //light house 2
-  var lightHouse3 = { lat: -37.442, lng: 17.433 }; //light house 3
+
   //! The map, centered at lisbon
   var map = new google.maps.Map(document.getElementById("map"), {
     zoom: 3,
@@ -280,7 +287,7 @@ function initMap() {
     icon: lighthouseIcon
   });
 
-  //!------------------------------------------------Marker Click Action
+  //!------------------------------------------------Marker Click Action------------------------
   //! In route setting mode,every click will return the marker index in the preDefinePath array
   //! Which can easily transfer the starting point ,ending point and the points between them.
   huston_marker.addListener("click", function(event) {
@@ -347,7 +354,7 @@ function initMap() {
         marinePath_L_R_C.push(preDefineCoordinates[j]);
       }
       weatherFactor(marinePath_L_R_C);
-      let marinePath_L_R = new google.maps.Polyline({
+      marinePath_L_R = new google.maps.Polyline({
         path: marinePath_L_R_C,
         geodesic: true,
         strokeColor: "#FF0000",
@@ -361,6 +368,8 @@ function initMap() {
         ]
       });
       marinePath_L_R.setMap(map);
+      startPort = marinePlanCoordinates[1];
+      console.log("this is " + startPort);
       animateBoat(marinePath_L_R);
     } else if (a > b) {
       let marinePath_R_L_C = [];
@@ -369,7 +378,7 @@ function initMap() {
       }
       console.log("from r to l " + marinePath_R_L_C);
       weatherFactor(marinePath_R_L_C);
-      let marinePath_R_L = new google.maps.Polyline({
+      marinePath_R_L = new google.maps.Polyline({
         path: marinePath_R_L_C,
         geodesic: true,
         strokeColor: "#03f513",
@@ -383,7 +392,9 @@ function initMap() {
         ]
       });
       marinePath_R_L.setMap(map);
-      animateBoat(marinePath_R_L);
+      startPort = marinePlanCoordinates[1];
+      console.log("this is " + startPort);
+      animateBoatR(marinePath_R_L);
     }
 
     function animateBoat(line) {
@@ -396,7 +407,28 @@ function initMap() {
           // stop the animate and initial
           clearInterval(intervalID);
           icons[0].icon = null;
-          marinePlanCoordinates = [];
+          removeRedLine();
+          marinePlanCoordinates = [startPort];
+          mode = "";
+        }
+        var icons = line.get("icons");
+        icons[0].offset = count / 2 + "%";
+        line.set("icons", icons);
+      }, boatSpeedFactor);
+    }
+
+    function animateBoatR(line) {
+      var count = 0;
+      var intervalID = window.setInterval(function() {
+        var icons = line.get("icons");
+        count = (count + 1) % 200;
+        console.log("count = " + count);
+        if (count === 0) {
+          // stop the animate and initial
+          window.clearInterval(intervalID);
+          icons[0].icon = null;
+          removeGreenLine();
+          marinePlanCoordinates = [startPort];
           mode = "";
         }
         var icons = line.get("icons");
@@ -405,7 +437,21 @@ function initMap() {
       }, boatSpeedFactor);
     }
   });
+
+  // $("#routeMode").on("click", function() {
+  //   console.log("route mode now");
+  //   clearInterval(intervalID);
+  //   mode = "route";
+  //   remoteRedLine();
+  // });
 }
+function removeRedLine() {
+  marinePath_L_R.setMap(null);
+}
+function removeGreenLine() {
+  marinePath_R_L.setMap(null);
+}
+
 //!----------------Main Function Ends-----------------------------
 
 //!--------------------------------WEATHER API-----------------------------
