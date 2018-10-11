@@ -1,6 +1,6 @@
 // temp
 // because of firebase array handling, should get list of goods before writing functions for them
-const defaultCargo = [["Coffee",0], ["Spices",0], ["Gold",0], ["Food",0]];
+const defaultCargo = [["Arms",0], ["Olive Oil",0], ["Fish",0], ["Cheese",0]];
 
 class Ship {
 
@@ -10,6 +10,15 @@ class Ship {
         this.money = money;
         this.hold = hold;
         this.fuel = fuel;
+<<<<<<< HEAD
+        this.cargo = cargo;
+        // localStorage.setItem("location", this.location);
+        // localStorage.setItem("money", this.money);
+        // localStorage.setItem("hull", this.hull);
+        // localStorage.setItem("hold", this.hold);
+        // localStorage.setItem("fuel", this.fuel);
+        // localStorage.setItem('cargo', JSON.stringify(this.cargo));
+=======
         if (cargo === defaultCargo)
             this.cargo = cargo;
         else
@@ -20,6 +29,7 @@ class Ship {
         localStorage.setItem("hold", this.hold);
         localStorage.setItem("fuel", this.fuel);
         localStorage.setItem('cargo', JSON.stringify(this.cargo));
+>>>>>>> c53a6f920f8efd30b863fc75e7a9771740c49ae6
     }
 
     // Setters
@@ -28,7 +38,11 @@ class Ship {
     }
 
     setItem(item, value) {
+<<<<<<< HEAD
+        switch(item) {
+=======
         switch (item) {
+>>>>>>> c53a6f920f8efd30b863fc75e7a9771740c49ae6
             case "location":
                 this.location = value;
                 localStorage.setItem(item, value);
@@ -38,7 +52,11 @@ class Ship {
                 localStorage.setItem(item, value);
                 break;
             case "money":
+<<<<<<< HEAD
+                this.money = money;
+=======
                 this.money = value;
+>>>>>>> c53a6f920f8efd30b863fc75e7a9771740c49ae6
                 localStorage.setItem(item, value);
                 break;
             case "hold":
@@ -50,6 +68,10 @@ class Ship {
                 localStorage.setItem(item, value);
                 break;
             default:
+<<<<<<< HEAD
+                console.log("Invalid item - " + item);
+=======
+>>>>>>> c53a6f920f8efd30b863fc75e7a9771740c49ae6
         }
     }
 
@@ -94,4 +116,5 @@ class Ship {
     }
     
 }
+
 

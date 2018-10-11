@@ -34,16 +34,25 @@ function startScreen(){
 
 Account.init();
 
+// Defaults: location = "Houston", hull = 5000, money = 1000, hold = 100, fuel = 100, time = 0
 if (localStorage.getItem("money") === null) {
     ship = new Ship();
     timer = new Timer();
 }
 else {
+<<<<<<< HEAD
+    ship = new Ship(localStorage.getItem("location"), localStorage.getItem("hull"), localStorage.getItem("money"),       localStorage.getItem("hold"), localStorage.getItem("fuel"), JSON.parse(localStorage.getItem("cargo")));
+    timer = new Timer(localStorage.getItem("time"));
+=======
     // location = "Houston", hull = 5000, money = 1000, hold = 100, fuel = 100
     ship = new Ship(localStorage.getItem("location"), localStorage.getItem("hull"), localStorage.getItem("money"), localStorage.getItem("hold"), localStorage.getItem("fuel"), JSON.parse(localStorage.getItem("cargo")));
     timer = new Timer();
+>>>>>>> c53a6f920f8efd30b863fc75e7a9771740c49ae6
 }
-var market = new Market();
+
+this.document.querySelector("#navigate").addEventListener("click", function() {
+    // call the function that has that one variable I need
+});
 
 
 
