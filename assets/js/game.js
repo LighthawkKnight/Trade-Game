@@ -237,7 +237,7 @@ function changePrice() {
     setTimeout(function(){
         for (var i = 0; i < prices.length; i++) 
             for (var j = 0; j < prices[i].length; j++) {
-                var rand = Math.floor(Math.random()) * 2 + 0.5;
+                var rand = Math.random() * 2 + 0.1;
                 prices[i][j] *= rand;
                 prices[i][j] = parseInt(prices[i][j])
                 switch(j) {
