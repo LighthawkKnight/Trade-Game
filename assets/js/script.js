@@ -5,7 +5,7 @@ firebase.initializeApp(Config.config);
 var loginScreen = document.querySelector('#Login');
 var gameMap = document.querySelector('#game-map');
 var apiMap = document.querySelector('#api-map');
-var tradeScreen = document.querySelector('#trade-screen');
+var tradeScreen = document.querySelector('#myModal');
 
 
 // document.querySelector("#login-dialog").addEventListener("click", function (){
@@ -31,11 +31,9 @@ document.querySelector('.buttonLocation').addEventListener("click", function() {
     // Hard part - sense the variables from api.js
 });
 
-document.querySelector('.buttonTrade').addEventListener("click", function() {
-    // open trade screen.  Let's see if we can make this a modal
-    gameMap.style.display = "none";
-    tradeScreen.style.display = "block";
-});
+// $('.buttonTrade').on('click', function() {
+//     $('#modal-dialog').modal('show');
+// });
 
 // Adding listener to each 'port options' button
 var ports = document.getElementsByClassName("port-opt")
@@ -52,18 +50,19 @@ for (var i = 0; i < ports.length; i++) {
 function startScreen(){
     
     // show this/ hide others, also starts that way
-    loginScreen.style.display = "block";
-    gameMap.style.display = "none";
+    localStorage.clear();
+    loginScreen.showModal();
+    gameMap.style.display = "block";
     apiMap.style.display = "none";
     tradeScreen.style.display = "none";
-    gameStart();
     // login is handled above
     // accountName = firebase.auth().currentUser;
     // playerName = firebase.auth().currentUser.displayName;
 }
 
 function gameStart() {
-    loginScreen.style.display = "none";
+    if (loginScreen.open)
+        loginScreen.close();
     gameMap.style.display = "block";
     apiMap.style.display = "none";
     tradeScreen.style.display = "none";
@@ -72,10 +71,5 @@ function gameStart() {
 // var ref = firebase.database().ref("/"+ accountName + "-" + playerName)
 
 Account.init();
-
-
-
-
-
-
+startScreen();
 // testing

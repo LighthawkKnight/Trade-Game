@@ -34,25 +34,132 @@ var elizabethPort = new port("elizabeth", {
     fish: 8,
     arms: 181
 });
+// $('#myModal').on('shown.bs.modal', function() {
+//     alert("i am in");
+//     $(document).off('focusin.modal');
+// });
+var selectedPort;
+var selectedGoods;
+var totalCost;
+var qty;
+
 
 $(document).ready(function () {
-    $(".trade-btn").on("click", function () {
-        var price;
-        var totalCost;
-        var selectedPort = $('#portOption :selected').val();  
-        var selectedGoods = $('#goodsOption :selected').val();    
-        var qty = $("#quantity").val();  
-      //  alert(selectedPort);  
-        if (selectedPort == "" || selectedGoods == "" || qty == "") {
-            alert("Please select all the fields");
+    //  $.fn.modal.Constructor.prototype.enforceFocus = function () {};
+    // $('#myModal').modal();
+    // alert("I am here");
+
+
+    $("#trade-buy").on("click", function () {
+        var price = [];
+        selectedPort = $('#portPlace').val();
+        selectedGoods = $('#goodsOption :selected').val();
+        qty = $("#quantity").val();
+        //  alert(selectedPort);  
+        if (selectedGoods == "" || qty == "") {
+            // $("#error").html("Please select all the fields");
+            // $('#myModal').modal("hide");
+            // $('#errorModal').modal("show");
+
+            // alert("Please select all the fields");
+            // return false;
+            bootbox.alert("Please enter data in all the fields.");
             return false;
-        } else if(isNaN(qty)) {
-            alert("Please enter a number in Qty");
+        } else if (isNaN(qty)) {
+            bootbox.alert("Only numbers are allowed in Quantity.");
+            // alert("Please enter a number in Qty");
             return false;
-        }      
-        price=window[selectedPort].price[selectedGoods]; 
-        totalCost=parseInt(price)*parseInt(qty);          
-        $("#totalCost").text(totalCost);   
+        }
+        // price = selectedPort.price[selectedGoods];
+        price = getCurrentPrice(selectedPort, selectedGoods);
+        totalCost = parseInt(price) * parseInt(qty);
+        $("#totalCost").text(totalCost);
+        $('#confirm-buy').show();
+        $('#cancel-buy').show();
     });
+
+    $("#trade-sell").on("click", function () {
+        var price = [];
+        var selectedPort = $('#portPlace').val();
+        selectedGoods = $('#goodsOption :selected').val();
+        qty = $("#quantity").val();
+        //  alert(selectedPort);  
+        if (selectedGoods == "" || qty == "") {
+            // $("#error").html("Please select all the fields");
+            // $('#myModal').modal("hide");
+            // $('#errorModal').modal("show");
+
+            // alert("Please select all the fields");
+            // return false;
+            bootbox.alert("Please enter data in all the fields.");
+            return false;
+        } else if (isNaN(qty)) {
+            bootbox.alert("Only numbers are allowed in Quantity.");
+            // alert("Please enter a number in Qty");
+            return false;
+        }
+        price = selectedPort.price[selectedGoods];
+        totalCost = parseInt(price) * parseInt(qty);
+        $("#totalCost").text(totalCost);
+        $('#confirm-sell').show();
+        $('#cancel-sell').show();
+    });
+
+    $("#close").on("click", function () {
+        // $('#portOption option')[0].selected = true;
+        $('#goodsOption option')[0].selected = true;
+      //  $('#portOption :selected').val('');
+      //  $('#goodsOption :selected').val("");
+        $("#quantity").val("");
+        $("#totalCost").text("");
+    });
+
+    $('#confirm-buy').on("click", function(){
+        buy(selectedGoods, qty, totalCost);
+        $("#quantity").val("");
+        $("#totalCost").text("");
+        $('#confirm-buy').hide();
+        $('#cancel-buy').hide();
+    });
+
+    $('#confirm-sell').on("click", function(){
+        sell(selectedGoods, qty, totalCost);
+        $("#quantity").val("");
+        $("#totalCost").text("");
+        $('#confirm-sell').hide();
+        $('#cancel-sell').hide();
+    });
+
+    $('#cancel-buy').on("click", function(){
+        $("#quantity").val("");
+        $("#totalCost").text("");
+        $('#confirm-buy').hide();
+        $('#cancel-buy').hide();
+    });
+
+    $('#cancel-sell').on("click", function(){
+        $("#quantity").val("");
+        $("#totalCost").text("");
+        $('#confirm-sell').hide();
+        $('#cancel-sell').hide();
+    });
+
+    // this will call the api functions based on the day
+    // armPrice(nth-day), oliveOilPrice(), fishPrice(), cheesePrice()
+    function getCurrentPrice(port, goods) {
+        var array = JSON.parse(localStorage.getItem(port));
+        switch (goods) {
+            case "Cheese":
+                return array[0];
+            case "Olive Oil":
+                return array[1];
+            case "Fish":
+                return array[2];
+            case "Arms":
+                return array[3];
+            default:
+                console.log("getCurrentPrice error");
+        }
+    }
 
 });

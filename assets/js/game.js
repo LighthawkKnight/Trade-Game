@@ -1,13 +1,3 @@
-// Require x amount of fresh water per distance.
-// In a tank similar to STF, or part of your hold.
-
-// Each time you get to port:
-// Buy and sell function
-
-
-// Write a function that compares current hold to max size or maybe
-// or use a get function
-
 // Houston, Miami, Lisbon, Elizabeth SA, Mumbai
 // Houston to Miami - 1178 nm, 10 days
 // Miami to Lisbon - 4478 nm, 37 days
@@ -23,34 +13,33 @@ const   HouToMia = 10,
 var ship;
 var timer;
 
-function displayPrices(){
-    // Display to buy and sell screens
-    // Me or Qi may do this
-}
-
-function sell(name, amount) {
-    var item = Ship.getCargo(name);
+function sell(name, amount, totalPrice) {
+    var item = ship.getCargo(name);
     if (item) {
         if (amount <= item[1]) {
-            Ship.setCargo(name, item[1] - amount);
-            Ship.setItem("money", Ship.money += calculatePrice(name, amount));
+            ship.setCargo(name, item[1] - amount);
+            ship.setItem("money", ship.money += totalPrice);
         }
         else
-            alert("You do not possess this many " + name);
+            bootbox.alert("You do not possess this many " + name);
     }
     else
         console.log("Not found");  // Change to functionality
 }
 
-function buy(name, amount) {
-    var item = Ship.getCargo(name);
+function buy(name, amount, totalPrice) {
+    var item = ship.getCargo(name);
     if (item) {
-        if (Ship.isSpace(amount)) {
-            Ship.setCargo(name, Ship.getCargo(name, item[1] + amount))
-            Ship.setItem("money", Ship.money -= calculatePrice(name, amount));
+        if (ship.isSpace(amount)) {
+            if (ship.money >= totalCost) {
+                ship.setCargo(name, ship.getCargo(name, item[1] + amount))
+                ship.setItem("money", ship.money -= totalPrice);
+            }
+            else
+                bootbox.alert("Not enough money");
         }
         else
-            alert("Not enough in space in your cargo hold.");
+            bootbox.alert("Not enough in space in your cargo hold.");
     }
     else
         console.log("Not found");
@@ -59,11 +48,11 @@ function buy(name, amount) {
 
 }
 
-function calculatePrice(name, amount) {
-    // TODO: lookup name
-    price = 200;
-    return amount * price;
-}
+// function calculatePrice(name, amount) {
+//     // TODO: lookup name
+//     price = 200;
+//     return amount * price;
+// }
 
 // Houston, Miami, Lisbon, Elizabeth SA, Mumbai
 function calculateTime(start, end) {
@@ -131,33 +120,139 @@ function initializeClass(){
         ship = new Ship(localStorage.getItem("location"), localStorage.getItem("hull"), localStorage.getItem("money"), localStorage.getItem("hold"), localStorage.getItem("fuel"), JSON.parse(localStorage.getItem("cargo")));
         timer = new Timer();
     }
-
-    // Get current location and find the id for it and do something with it
-    // Make it glow or w/e
-    // ids:  port1: Houston, port2: Miami, port3: Lisbon, port4: Elizabeth, port5: Mumbai
-
-
+    currentLocation();
+    changePrice();
 }
 
 function currentLocation() {
+    //temp
     // filter: grayscale(100%);
+    var houston = document.querySelector("#hou-img");
+    var houPort = document.querySelector("#bp1");
+    var miami = document.querySelector("#mia-img");
+    var miaPort = document.querySelector("#bp2");
+    var lisbon = document.querySelector("#lis-img");
+    var lisPort = document.querySelector("#bp3");
+    var elizabeth = document.querySelector("#liza-img");
+    var lizaPort = document.querySelector("#bp4");
+    var mumbai = document.querySelector("#mum-img");
+    var mumPort = document.querySelector("#bp5");
+    var bw = "grayscale(100%)";
     switch(ship.location){
         case "Houston":
-            document.querySelector(".port1")
+            houston.style.filter = "";
+            miami.style.filter = bw;
+            lisbon.style.filter = bw;
+            elizabeth.style.filter = bw;
+            mumbai.style.filter = bw;
+            houPort.style.display = "block";
+            miaPort.style.display = "none";
+            lisPort.style.display = "none";
+            lizaPort.style.display = "none";
+            mumPort.style.display = "none";
+            $("#portPlace").html("Houston");
             break;
         case "Miami":
-            document.querySelector(".port2")
+            houston.style.filter = bw;
+            miami.style.filter = "";
+            lisbon.style.filter = bw;
+            elizabeth.style.filter = bw;
+            mumbai.style.filter = bw;
+            houPort.style.display = "none";
+            miaPort.style.display = "block";
+            lisPort.style.display = "none";
+            lizaPort.style.display = "none";
+            mumPort.style.display = "none";
+            $("#portPlace").html("Miami");
             break;
         case "Lisbon":
+            houston.style.filter = bw;
+            miami.style.filter = bw;
+            lisbon.style.filter = "";
+            elizabeth.style.filter = bw;
+            mumbai.style.filter = bw;
+            houPort.style.display = "none";
+            miaPort.style.display = "none";
+            lisPort.style.display = "block";
+            lizaPort.style.display = "none";
+            mumPort.style.display = "none";
+            $("#portPlace").html("Lisbon");
             break;
         case "Elizabeth":
+            houston.style.filter = bw;
+            miami.style.filter = bw;
+            lisbon.style.filter = bw;
+            elizabeth.style.filter = "";
+            mumbai.style.filter = bw;
+            houPort.style.display = "none";
+            miaPort.style.display = "none";
+            lisPort.style.display = "none";
+            lizaPort.style.display = "block";
+            mumPort.style.display = "none";
+            $("#portPlace").html("Elizabeth");
             break;
         case "Mumbai":
+            houston.style.filter = bw;
+            miami.style.filter = bw;
+            lisbon.style.filter = bw;
+            elizabeth.style.filter = bw;
+            mumbai.style.filter = "";
+            houPort.style.display = "none";
+            miaPort.style.display = "none";
+            lisPort.style.display = "none";
+            lizaPort.style.display = "none";
+            mumPort.style.display = "block";
+            $("#portPlace").html("Mumbai");
             break;
+        default:
+            console.log("Location error");
     }
 }
 
 function voyage(destination) {
     timer.setTime(calculateTime(ship.location, destination));
     ship.setItem("location", destination);
+    currentLocation();
+    changePrice();
 }
+
+// This will change the prices in the game based on the amount of days passed
+function changePrice() {
+    var prices = [];
+    var houPrices = [];
+    var miaPrices = [];
+    var lisPrices = [];
+    var eliPrices = [];
+    var mumPrices = [];
+    var days = timer.time;
+
+    if (timer.time == 0)
+        days = 1;
+
+    prices[0] = cheesePrice(days);
+    prices[1] = oliveOilPrice(days);
+    prices[2] = fishPrice(days);
+    prices[3] = armPrice(days);
+
+    setTimeout(function(){
+        for (var i = 0; i < prices.length; i++) 
+            for (var j = 0; j < prices[i].length; j++) {
+                var rand = Math.floor(Math.random()) * 2 + 0.5;
+                prices[i][j] *= rand;
+                switch(j) {
+                    case 0: houPrices.push(); break;
+                    case 1: miaPrices.push(); break;
+                    case 2: lisPrices.push(); break;
+                    case 3: eliPrices.push(); break;
+                    case 4: mumPrices.push(); break;
+                    default: console.log("changePrice error");
+                }
+            }
+        localStorage.setItem("Houston", JSON.stringify(houPrices));
+        localStorage.setItem("Miami", JSON.stringify(miaPrices));
+        localStorage.setItem("Lisbon", JSON.stringify(lisPrices));
+        localStorage.setItem("Elizabeth", JSON.stringify(eliPrices));
+        localStorage.setItem("Mumbai", JSON.stringify(mumPrices));
+    },9000);
+}
+

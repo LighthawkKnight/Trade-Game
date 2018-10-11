@@ -2,7 +2,13 @@
 <html>
 
 <head>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  <link href="https://fonts.googleapis.com/css?family=Kelly+Slab" rel="stylesheet">
   <style>
     /* Set the size of the div element that contains the map */
     #map {
@@ -11,23 +17,157 @@
       width: 100%;
       /* The width is the width of the web page */
     }
+
+    h1 {
+      margin-left: 250px;
+    }
+
+    .container {
+      margin-left: 2%;
+      font-family: 'Kelly Slab', cursive;
+      font-size: 20px;
+
+
+    }
+
+    #modalport {
+      background-image: url("assets/image/animated-old-parchment-paper-background-stop-motion_rnbcvf7y__F0000.png");
+      background-repeat: no-repeat;
+      background-size: 100% 120%;
+      width: 100%;
+    }
+
+    .modal-content {
+      width: 70%;
+      background-color: goldenrod;
+    }
   </style>
 </head>
 
 <body>
-  <button onclick="setRouteMode()" id="routeMode">Route Mode</button>
-  <button id="routeConfirm">Confirm Route</button>
+  <div class="container">
+    <button id="routeMode">Route Mode</button>
+    <button id="routeConfirm">Confirm Route</button>
+    <!-- <button id="trade">
+    <a href=".\project1-buy-sell.html">Trade</a>
+  </button> -->
+
+
+
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">Trade</button>
+    
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <div class="container" id="modalport">
+              <form class="form-horizontal">
+                <h2>Trade</h2>
+
+                <div class="row ">
+
+                  <div class="col-md-6 ">
+                    <div class="form-group col-sm-2 ">
+                      <label for="portPlace ">Port:</label>
+                      <select id="portOption" class="form-control-port testclass">
+                        <option></option>
+                        <option value="lisbonPort">Lisbon</option>
+                        <option value="miamiPort">Miami</option>
+                        <option value="mumbaiPort">Mumbai</option>
+                        <option value="houstonPort">Houston</option>
+                        <option value="elizabethPort">Elizabeth</option>
+                      </select>
+                    </div>
+                  </div>
+
+
+                </div>
+                <div class="row ">
+                  <div class="col-md-6 ">
+                    <div class="form-group col-sm-2 ">
+                      <label for="goods ">Goods:</label>
+                      <select id="goodsOption" class="form-control-goods">
+                        <option></option>
+                        <option value="cheese">Cheese</option>
+                        <option value="olive_oil">Olive Oil</option>
+                        <option value="fish">Fish</option>
+                        <option value="arms">Arms</option>
+
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row ">
+                  <div class="col-md-6 ">
+                    <div class="form-group col-md-6">
+
+                      <label for="quantity">Quantity:</label>
+                      <input type="text " class="form-control " id="quantity">
+
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row ">
+                  <div class="col-md-3 ">
+                    <div class="form-group col-sm-2 ">
+                      <label for="totalCost">Price:</label>
+                      <p id="totalCost"></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row ">
+
+                  <div class="col-sm-2">
+                    <button type="button" class="btn btn-warning trade-btn">Buy</button>
+                  </div>
+                  <div class="col-sm-4">
+                    <button type="button" class="btn btn-warning trade-btn">Sell</button>
+                  </div>
+
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="close" class="btn btn-warning" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
   <!--The div element for the map -->
   <div id="map"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
   <script src="assets/js/api.js"></script>
+  <script src="assets/js/port.js"></script>
+  <script src="assets/js/bootbox.min.js"></script>
   <!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads
     * The key parameter will contain your own API key (which is not needed for this tutorial)
     * The callback parameter executes the initMap() function
     -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvYKFPA7neVK0WInO2bmnva2yowXoQkAs&callback=initMap"></script>
+
+  <script>
+  </script>
 </body>
 
 </html>

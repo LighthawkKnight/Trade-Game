@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Winds of Trade</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-indigo.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link href="https://fonts.googleapis.com/css?family=Kelly+Slab" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/Style.css">
-    <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     
 </head>
 
@@ -20,9 +22,9 @@
 
 <!-- START SCREEN -->
 
-<div id="Login">   
+<dialog id="Login" class = "mdl-dialog">   
 
-    <h1>Trade Game</h1>
+    <div class="mdl-dialog__title" style = "color: blue; font-size: 5vh; text-align: center">Winds of Trade</div>
    
     <!---- Guest button (extra content)
   
@@ -86,16 +88,17 @@
       </div>
   </dialog>  
 
-  <menu>
-      <button id="showLog">Login</button>
-  </menu>
-
-</div>
+  
+  <button id="login-button"class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style = "margin-top: 40%; margin-left: 45%">
+      Login
+    </button>
+</dialog>
   
   <!----------------------------------------END START SCREEN------------------------------------------------------>
 
 
 <!--GAME MAP -->
+
 <div id="game-map">
   <!--current ports info-->
     <div id="currentInfo">
@@ -104,8 +107,8 @@
   
     <!--New picture with button attached-->
     <div class="port1">
-        <img src="http://www.cavotec.com/uploads/thumbs/2017/05/24/01-pm_thumb_1280_640.jpg" alt="Snow" height="40px" width="40px">
-        <button id="houston-btn" class="btn">Houston</button>
+        <img id = "hou-img" src="http://www.cavotec.com/uploads/thumbs/2017/05/24/01-pm_thumb_1280_640.jpg" alt="Snow" height="40px" width="40px">
+        <button id="hou-btn" class="btn">Houston</button>
       </div>
     <!-- *(original port button)
     <div id="port1">
@@ -114,23 +117,23 @@
   -->
   
   <div class="port2">
-      <img src="http://www.cavotec.com/uploads/thumbs/2017/05/24/01-pm_thumb_1280_640.jpg" alt="Snow" height="40px" width="40px">
-      <button id = "miami-btn" class="btn">Miami</button>
+      <img id = "mia-img" src="http://www.cavotec.com/uploads/thumbs/2017/05/24/01-pm_thumb_1280_640.jpg" alt="Snow" height="40px" width="40px">
+      <button id = "mia-btn" class="btn">Miami</button>
     </div>
   
     <div class="port3">
-        <img src="http://www.cavotec.com/uploads/thumbs/2017/05/24/01-pm_thumb_1280_640.jpg" alt="Snow" height="40px" width="40px">
-        <button id = "lisbon-btn" class="btn">Lisbon</button>
+        <img id = "lis-img" src="http://www.cavotec.com/uploads/thumbs/2017/05/24/01-pm_thumb_1280_640.jpg" alt="Snow" height="40px" width="40px">
+        <button id = "lis-btn" class="btn">Lisbon</button>
       </div>
   
       <div class="port4">
-          <img src="http://www.cavotec.com/uploads/thumbs/2017/05/24/01-pm_thumb_1280_640.jpg" alt="Snow" height="40px" width="40px">
-          <button id = "elizabeth-btn" class="btn">Elizabeth</button>
+          <img id = "liza-img" src="http://www.cavotec.com/uploads/thumbs/2017/05/24/01-pm_thumb_1280_640.jpg" alt="Snow" height="40px" width="40px">
+          <button id = "liza-btn" class="btn">Elizabeth</button>
         </div>
   
         <div class="port5">
-            <img src="http://www.cavotec.com/uploads/thumbs/2017/05/24/01-pm_thumb_1280_640.jpg" alt="Snow" height="40px" width="40px">
-            <button id = "mumbai-btn" class="btn">Mumbai</button>
+            <img id = "mum-img" src="http://www.cavotec.com/uploads/thumbs/2017/05/24/01-pm_thumb_1280_640.jpg" alt="Snow" height="40px" width="40px">
+            <button id = "mum-btn" class="btn">Mumbai</button>
           </div>
   
   <!--Show/Hide depeding on active port?-->
@@ -141,7 +144,7 @@
   <button class = "port-opt" id="bp5">Port options</button>
   
   <div id="TradeOptions">
-    <button class="buttonTrade">Trade</button>
+    <button class="buttonTrade" data-toggle="modal" data-target="#myModal">Trade</button>
     <button class="buttonLocation">Pick another port</button>
     <button id = "save">Save</button>
     <button id = "logout">Logout</button>
@@ -177,83 +180,120 @@
 
 <!--BUY/SELL SCREEN-->
 
-<div id = "trade-screen">
-  <div class="container">
-      <form class="form-horizontal">
-          <h2>Trade</h2>
+    <div class="container">
+        <!-- <button id="trade">
+        <a href=".\project1-buy-sell.html">Trade</a>
+      </button> -->
+    
+        
+    
+        <!-- Modal -->
+        <div class="modal" id="myModal" role="dialog">
+          <div class="modal-dialog">
+    
+            <!-- Modal content-->
+            <div class="modal-content">
+    
+              <div class="modal-header">
+                <div class="container" id="modalport">
+                  <form class="form-horizontal">
+                    <h2>Trade Goods</h2>
+                    
+                    <div class ="row">
+                      <div class = "col-md-6">
+                        <div id = "yourMoney">Money: $<span id = your-money></span></label>
+                      </div>
 
-          <div class="row ">
+                    </div>
 
-              <div class="col-md-6 ">
-                  <div class="form-group col-sm-2 ">
-                      <label for="portPlace ">Port:</label>
-                      <select id="portOption" class="form-control-port testclass">
-                          <option></option>
-                          <option value="lisbonPort">Lisbon</option>
-                          <option value="miamiPort">Miami</option>
-                          <option value="mumbaiPort">Mumbai</option>
-                          <option value="houstonPort">Houston</option>
-                          <option value="elizabethPort">Elizabeth</option>
-                      </select>
-                  </div>
+
+                    <div class="row ">
+    
+                      <div class="col-md-6 ">
+                        <div class="form-group col-sm-2 ">
+                          <label for="portPlace">Port:</label>
+                          <div id = "portPlace"></div>
+                          <!-- <select id="portOption" class="form-control-port testclass">
+                            <option></option>
+                            <option value="lisbonPort">Lisbon</option>
+                            <option value="miamiPort">Miami</option>
+                            <option value="mumbaiPort">Mumbai</option>
+                            <option value="houstonPort">Houston</option>
+                            <option value="elizabethPort">Elizabeth</option>
+                          </select> -->
+                        </div>
+                      </div>
+    
+    
+                    </div>
+                    <div class="row ">
+                      <div class="col-md-6 ">
+                        <div class="form-group col-sm-2 ">
+                          <label for="goods ">Goods:</label>
+                          <select id="goodsOption" class="form-control-goods">
+                            <option></option>
+                            <option value="cheese">Cheese</option>
+                            <option value="olive_oil">Olive Oil</option>
+                            <option value="fish">Fish</option>
+                            <option value="arms">Arms</option>
+    
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div class="row ">
+                      <div class="col-md-6 ">
+                        <div class="form-group col-md-6">
+    
+                          <label for="quantity">Quantity:</label>
+                          <input type="text " class="form-control " id="quantity" style = "width: 200%">
+    
+                        </div>
+                      </div>
+    
+                    </div>
+                    <div class="row ">
+                      <div class="col-md-3 ">
+                        <div class="form-group col-sm-2 ">
+                          <label for="totalCost">Price:</label>
+                          <p id="totalCost"></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row ">
+    
+                      <div class="col-sm-2">
+                        <button type="button" id = "trade-buy" class="btn btn-warning trade-btn">Buy</button>
+                      </div>
+                      <div class="col-sm-4">
+                        <button type="button" id = "trade-sell" class="btn btn-warning trade-btn">Sell</button>
+                      </div>
+    
+                    </div>
+                  </form>
+                </div>
               </div>
-
-
-          </div>
-          <div class="row ">
-              <div class="col-md-6 ">
-                  <div class="form-group col-sm-2 ">
-                      <label for="goods ">Goods:</label>
-                      <select id="goodsOption" class="form-control-goods">
-                          <option></option>
-                          <option value="cheese">Cheese</option>
-                          <option value="olive_oil">Olive Oil</option>
-                          <option value="fish">Fish</option>
-                          <option value="arms">Arms</option>
-
-                      </select>
-                  </div>
+              <div class="modal-footer">
+                <button type="button" id="confirm-buy" class="btn btn-primary" data-dismiss="modal" style="display: none">Confirm Buy</button>
+                <button type="button" id="cancel-buy" class="btn btn-danger" data-dismiss="modal" style="display: none">Cancel Buy</button>
+                <button type="button" id="confirm-sell" class="btn btn-primary" data-dismiss="modal" style="display: none">Confirm Sell</button>
+                <button type="button" id="cancel-sell" class="btn btn-danger" data-dismiss="modal" style="display: none">Cancel Sell</button>
+                <button type="button" id="close" class="btn btn-warning" data-dismiss="modal">Close</button>
               </div>
+            </div>
+    
           </div>
-
-          <div class="row ">
-              <div class="col-md-6 ">
-                  <div class="form-group col-sm-2 ">
-
-                      <label for="quantity">Quantity:</label>
-                      <input type="text " class="form-control " id="quantity">
-
-                  </div>
-              </div>
-
-          </div>
-          <div class="row ">
-              <div class="col-md-3 ">
-                  <div class="form-group col-sm-2 ">
-                      <label for="totalCost">Price:</label>
-                      <p id="totalCost"></p>
-                  </div>
-              </div>
-          </div>
-          <div class="row ">
-
-              <div class="col-sm-1">
-                  <button type="button" class="btn btn-warning trade-btn">Buy</button>
-              </div>
-
-              <button type="button" class="btn btn-warning trade-btn">Sell</button>
-
-
-          </div>
-      </form>
-  </div>
-</div>
+        </div>
+    
+      </div>
 
 <!-----------------------------------------END BUY/SELL SCREEN--------------------------------------------------------------------->
 
 <script src = "assets/js/config.js"></script>
 <script src = "assets/js/account.js"></script>
 <script src = "assets/js/api.js"></script>
+<script src = "assets/js/bootbox.min.js"></script>
 <script src = "assets/js/port.js"></script>
 <script src = "assets/js/ship.js"></script>
 <script src = "assets/js/timer.js"></script>
@@ -264,12 +304,66 @@
 </body>
 </html>
 
-<div id="Timer">Time/days elapsed</div>
+<div id="Timer">Time/days elapsed:<span id = "time-elapsed"></span></div>
 
 <div class="stock">
     <img src="https://previews.123rf.com/images/irochka/irochka0806/irochka080600021/3122953-close-up-view-oft-the-old-compas-with-soft-shadow.jpg" alt="Snow" height="40px" width="40px">
-    <button class="btn">Your stock</button>
+    <button id = "cargo-list" class="btn" onclick="showCargo()">Cargo</button>
+    <dialog id="cargo-dialog" class="mdl-dialog">
+        <h4 class="mdl-dialog__title">Your Cargo</h4>
+          <div class="mdl-dialog__content">              
+            <ul class="demo-list-item mdl-list">
+                <li class="mdl-list__item">
+                    <span class="mdl-list__item-primary-content">
+                      Money
+                    </span>
+                    <span id = "money-inv" class="mdl-list__item-secondary-content">$0</span>
+                  </li>
+                <li class="mdl-list__item">
+                  <span class="mdl-list__item-primary-content">
+                    Cheese
+                  </span>
+                  <span id = "cheese-inv" class="mdl-list__item-secondary-content">0</span>
+                <li class="mdl-list__item">
+                  <span class="mdl-list__item-primary-content">
+                    Olive Oil
+                  </span>
+                  <span id = "olive-inv" class="mdl-list__item-secondary-content">0</span>
+                </li>
+                <li class="mdl-list__item">
+                  <span class="mdl-list__item-primary-content">
+                    Fish
+                  </span>
+                  <span id = "fish-inv" class="mdl-list__item-secondary-content">0</span>
+                </li>
+                <li class="mdl-list__item">
+                  <span class="mdl-list__item-primary-content">
+                    Arms
+                  </span>
+                  <span id = "arms-inv" class="mdl-list__item-secondary-content">0</span>
+                </li>
+              </ul>
+              <button id="exit-cargo" onclick = "hideCargo()"
+              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+              Exit
+              </button>
+            </div>
+          </dialog>
 </div>
+
+<script>
+function showCargo(){
+  document.querySelector('#cargo-dialog').showModal();
+  if (localStorage.getItem("cargo") != null)
+      Ship.outputCargo(JSON.parse(localStorage.getItem("cargo")));
+}
+
+function hideCargo(){
+    var dialog = document.querySelector('#cargo-dialog')
+    if (dialog.open)
+        dialog.close();
+}
+</script>
 <!---created the ports-->
 
 <!----  Port options-->

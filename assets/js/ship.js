@@ -1,6 +1,6 @@
 // temp
 // because of firebase array handling, should get list of goods before writing functions for them
-const defaultCargo = [["Arms",0], ["Olive Oil",0], ["Fish",0], ["Cheese",0]];
+const defaultCargo = [["Cheese",0], ["Olive Oil",0], ["Fish",0], ["Arms",0]];
 
 class Ship {
 
@@ -20,6 +20,7 @@ class Ship {
         localStorage.setItem("hold", this.hold);
         localStorage.setItem("fuel", this.fuel);
         localStorage.setItem('cargo', JSON.stringify(this.cargo));
+        $('#your-money').html(this.money);
     }
 
     // Setters
@@ -40,6 +41,7 @@ class Ship {
             case "money":
                 this.money = value;
                 localStorage.setItem(item, value);
+                $('#your-money').html(value);
                 break;
             case "hold":
                 this.hold = value;
@@ -90,8 +92,13 @@ class Ship {
         localStorage.setItem("hold", this.hold);
     }
 
-    outputCargo() {
+    static outputCargo(cargo) {
         // write code here to display to the various html pages that needs it
+        document.querySelector('#money-inv').innerHTML = "$" + localStorage.getItem("money");
+        document.querySelector('#cheese-inv').innerHTML = cargo[0][1];
+        document.querySelector('#olive-inv').innerHTML = cargo[1][1];
+        document.querySelector('#fish-inv').innerHTML = cargo[2][1];
+        document.querySelector('#arms-inv').innerHTML = cargo[3][1];
     }
     
 }

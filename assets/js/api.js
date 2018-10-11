@@ -505,6 +505,7 @@ function weatherFactor(coordinateArray) {
 //!----------------------------------------------------------------------------
 
 function armPrice(nth_day) {
+  var armEachPort = [];
   var queryURL_arms =
     "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=YAJjnPkiAFh1n3YazeZP";
   $.ajax({
@@ -513,12 +514,13 @@ function armPrice(nth_day) {
   }).then(function(response) {
     console.log(response);
     var dailyPrice = response.dataset.data;
-    var armEachPort = dailyPrice[nth_day].slice(1);
+    armEachPort = dailyPrice[nth_day].slice(1);
     console.log(armEachPort);
-  });
+    });  
   return armEachPort;
 }
 function oliveOilPrice(nth_day) {
+  var ooEachPort = [];
   var queryURL_olive_oil =
     "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=YAJjnPkiAFh1n3YazeZP";
   $.ajax({
@@ -529,13 +531,13 @@ function oliveOilPrice(nth_day) {
     var dailyPrice = response.dataset.data;
     var ooEachPort1 = dailyPrice[nth_day].slice(1);
     var ooEachPort2 = dailyPrice[nth_day + 1].slice(2);
-    var ooEachPort = ooEachPort1.concat(ooEachPort2);
-    // console.log(armEachPort);
+    ooEachPort = ooEachPort1.concat(ooEachPort2);
+    console.log(ooEachPort);
   });
   return ooEachPort;
 }
 
-function fishPrice() {
+function fishPrice(nth_day) {
   var fishEachPort = [];
   queryURL_fish =
     "https://www.quandl.com/api/v3/datasets/WGEC/WLD_ZINC.json?api_key=YAJjnPkiAFh1n3YazeZP";
@@ -549,8 +551,9 @@ function fishPrice() {
       let c = Math.floor(56 * Math.random());
       fishEachPort.push(dailyPrice[c]);
     }
-    return fishEachPort;
+    console.log(fishEachPort);
   });
+  return fishEachPort;
 }
 
 function cheesePrice(nth_day) {
@@ -563,14 +566,15 @@ function cheesePrice(nth_day) {
   }).then(function(response) {
     console.log(response);
     let c = response.dataset.data[nth_day];
-    console.log(c);
+    // console.log(c);
     let idx = [1, 2, 3, 4, 6];
     for (let i = 0; i < 5; i++) {
       let d = idx[i];
       cheeseEachPort.push(c[d]);
     }
-    return cheeseEachPort;
+    console.log(cheeseEachPort);
   });
+  return cheeseEachPort;
 }
 
 

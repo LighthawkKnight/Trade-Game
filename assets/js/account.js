@@ -41,7 +41,7 @@ var Account = (function(){
         if (validate([email, password])) {
             // This calls firebase's signInWithEmailAndPassword's function as opposed to this one
             firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(function(user) {
-                console.log ("Sign in successful with user: " + user);
+                console.log ("Sign in successful with user: " + user.email);
             }, function(e){
                 console.error("Sign in error", e);
             });
@@ -74,11 +74,11 @@ var Account = (function(){
             // No need since they're on separate screens
             // document.querySelector("#login").style.display = "none";
             // document.querySelector("#logout").style.display = "block";
-            accountName = firebase.auth().currentUser;
+            accountName = firebase.auth().currentUser.uid;
             playerName = firebase.auth().currentUser.displayName;
             var ref = firebase.database().ref("/"+ accountName + "-" + playerName);
             var dataExists = false;
-            ref.then (function(snapshot) {
+            ref.on('value',function(snapshot) {
                 dataExists = snapshot.exists();
             })
             if (dataExists) {
@@ -89,6 +89,7 @@ var Account = (function(){
                 localStorage.setItem("hold", snapshot.val().hold);
                 localStorage.setItem("fuel", snapshot.val().fuel);
                 localStorage.setItem('cargo', snapshot.val().cargo);
+                localStorage.setItem("time", snapshot.val().time);
             }
             else {
 
@@ -134,6 +135,7 @@ var Account = (function(){
             hull: localStorage.getItem("hull"),
             fuel: localStorage.getItem("fuel"),
             cargo: localStorage.getItem("cargo"),
+            time: localStorage.getItem("time")
             }, function (error) {
                 if (error)
                     console.error("Save error", error);
@@ -149,8 +151,7 @@ var Account = (function(){
         init: function() {
             firebase.auth().onAuthStateChanged(authStateChangeListener);
             // showModal() makes the user not able to interact with other elsements like a pop up box or an alert
-            // Login button on top right
-            document.querySelector("#login-dialog").addEventListener("click", function (){
+            document.querySelector("#login-button").addEventListener("click", function (){
                 loginDialog.showModal();
             });
             // Logout button to top right
