@@ -54,7 +54,7 @@ $(document).ready(function () {
         var price = [];
         selectedPort = $('#portPlace').text();
         selectedGoods = $('#goodsOption :selected').val();
-        qty = $("#quantity").val();
+        qty = parseInt($("#quantity").val());
         //  alert(selectedPort);  
         if (selectedGoods == "" || qty == "") {
             // $("#error").html("Please select all the fields");
@@ -63,15 +63,17 @@ $(document).ready(function () {
 
             // alert("Please select all the fields");
             // return false;
-            bootbox.alert("Please enter data in all the fields.");
+            alert("Please enter data in all the fields.");
             return false;
         } else if (isNaN(qty)) {
-            bootbox.alert("Only numbers are allowed in Quantity.");
+            alert("Only numbers are allowed in Quantity.");
             // alert("Please enter a number in Qty");
             return false;
         }
         // price = selectedPort.price[selectedGoods];
+        console.log(selectedGoods);
         price = getCurrentPrice(selectedPort, selectedGoods);
+        console.log(price);
         totalCost = parseInt(price) * parseInt(qty);
         $("#totalCost").text(totalCost);
         $('#confirm-buy').show();
@@ -82,7 +84,7 @@ $(document).ready(function () {
         var price = [];
         var selectedPort = $('#portPlace').text();
         selectedGoods = $('#goodsOption :selected').val();
-        qty = $("#quantity").val();
+        qty = parseInt($("#quantity").val());
         //  alert(selectedPort);  
         if (selectedGoods == "" || qty == "") {
             // $("#error").html("Please select all the fields");
@@ -91,14 +93,14 @@ $(document).ready(function () {
 
             // alert("Please select all the fields");
             // return false;
-            bootbox.alert("Please enter data in all the fields.");
+            alert("Please enter data in all the fields.");
             return false;
         } else if (isNaN(qty)) {
-            bootbox.alert("Only numbers are allowed in Quantity.");
+            alert("Only numbers are allowed in Quantity.");
             // alert("Please enter a number in Qty");
             return false;
         }
-        price = selectedPort.price[selectedGoods];
+        price = getCurrentPrice(selectedPort, selectedGoods);
         totalCost = parseInt(price) * parseInt(qty);
         $("#totalCost").text(totalCost);
         $('#confirm-sell').show();
@@ -147,6 +149,7 @@ $(document).ready(function () {
     // this will call the api functions based on the day
     // armPrice(nth-day), oliveOilPrice(), fishPrice(), cheesePrice()
     function getCurrentPrice(port, goods) {
+        console.log(port);
         var array = JSON.parse(localStorage.getItem(port));
         switch (goods) {
             case "Cheese":

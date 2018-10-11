@@ -4,7 +4,7 @@ const defaultCargo = [["Cheese",0], ["Olive Oil",0], ["Fish",0], ["Arms",0]];
 
 class Ship {
 
-    constructor(location = "Houston", hull = 5000, money = 1000, hold = 100, fuel = 100, cargo = defaultCargo) {
+    constructor(location = "Houston", hull = 5000, money = 10000, hold = 100, fuel = 100, cargo = defaultCargo) {
         this.location = location;
         this.hull = hull;
         this.money = money;
@@ -59,9 +59,11 @@ class Ship {
     setCargo(name, amount) {
         for (var i = 0; i < this.cargo.length; i++)
             if (this.cargo[i][0] == name) {
+                console.log(amount);
                 this.cargo[i].pop();
                 this.cargo[i].push(amount);
                 i = this.cargo.length;
+                console.log(this.cargo);
                 localStorage.setItem('cargo', JSON.stringify(this.cargo));
             }
     }
@@ -69,15 +71,17 @@ class Ship {
     // Getters
     getCargo(name) {
         for (var i = 0; i < this.cargo.length; i++)
-            if (this.cargo[i][0] == name)
-                return this.cargo[i];
+            if (this.cargo[i][0] == name) {
+                return this.cargo[i][1];
+            }
         return null;
     }
 
     // checks if the cargo hold is full if the amount passed in is added
-    isSpace(amount = 0){
-        for (var i = 0; i < this.cargo.length; i++)
+    isSpace(amount){
+        for (var i = 0; i < this.cargo.length; i++) {
             amount += this.cargo[i][1];
+        }
         if (amount <= this.hold)
             return true;
         else

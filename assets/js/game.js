@@ -15,13 +15,13 @@ var timer;
 
 function sell(name, amount, totalPrice) {
     var item = ship.getCargo(name);
-    if (item) {
-        if (amount <= item[1]) {
-            ship.setCargo(name, item[1] - amount);
+    if (item != null) {
+        if (amount <= item) {
+            ship.setCargo(name, item - amount);
             ship.setItem("money", ship.money += totalPrice);
         }
         else
-            bootbox.alert("You do not possess this many " + name);
+            alert("You do not possess this many " + name);
     }
     else
         console.log("Not found");  // Change to functionality
@@ -29,17 +29,17 @@ function sell(name, amount, totalPrice) {
 
 function buy(name, amount, totalPrice) {
     var item = ship.getCargo(name);
-    if (item) {
+    if (item != null) {
         if (ship.isSpace(amount)) {
             if (ship.money >= totalCost) {
-                ship.setCargo(name, ship.getCargo(name, item[1] + amount))
+                ship.setCargo(name, item + amount)
                 ship.setItem("money", ship.money -= totalPrice);
             }
             else
-                bootbox.alert("Not enough money");
+                alert("Not enough money");
         }
         else
-            bootbox.alert("Not enough in space in your cargo hold.");
+            alert("Not enough in space in your cargo hold.");
     }
     else
         console.log("Not found");
@@ -234,15 +234,9 @@ function changePrice() {
     prices[2] = fishPrice(days);
     prices[3] = armPrice(days);
 
-    console.log(prices[0]);
-    console.log(prices[1]);
-    console.log(prices[2]);
-    console.log(prices[3]);
-
     setTimeout(function(){
         for (var i = 0; i < prices.length; i++) 
             for (var j = 0; j < prices[i].length; j++) {
-                console.log(prices[i].length);
                 var rand = Math.floor(Math.random()) * 2 + 0.5;
                 prices[i][j] *= rand;
                 prices[i][j] = parseInt(prices[i][j])
