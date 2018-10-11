@@ -435,6 +435,10 @@ function initMap() {
           removeGreenLine();
           marinePlanCoordinates = [startPort];
           mode = "";
+          document.querySelector('#api-map').style.display = "none";
+          document.querySelector('#game-map').style.display = "block";
+          console.log(getStartPort());
+          voyage(getStartPort());
         }
         var icons = line.get("icons");
         icons[0].offset = count / 2 + "%";
