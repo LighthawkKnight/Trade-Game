@@ -505,56 +505,80 @@ function weatherFactor(coordinateArray) {
 //!----------------------------------------------------------------------------
 
 function armPrice(nth_day) {
-  var armEachPort = [];
-  var queryURL_arms =
-    "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=YAJjnPkiAFh1n3YazeZP";
-  $.ajax({
-    url: queryURL_arms,
-    method: "GET"
-  }).then(function(response) {
-    console.log(response);
-    var dailyPrice = response.dataset.data;
-    armEachPort = dailyPrice[nth_day].slice(1);
-    console.log(armEachPort);
-    });  
-  return armEachPort;
-}
-function oliveOilPrice(nth_day) {
-  var ooEachPort = [];
-  var queryURL_olive_oil =
-    "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=YAJjnPkiAFh1n3YazeZP";
-  $.ajax({
-    url: queryURL_olive_oil,
-    method: "GET"
-  }).then(function(response) {
-    console.log(response);
-    var dailyPrice = response.dataset.data;
-    var ooEachPort1 = dailyPrice[nth_day].slice(1);
-    var ooEachPort2 = dailyPrice[nth_day + 1].slice(2);
-    ooEachPort = ooEachPort1.concat(ooEachPort2);
-    console.log(ooEachPort);
-  });
-  return ooEachPort;
+    var armEachPort = [];
+    queryURL_arm =
+      "https://www.quandl.com/api/v3/datasets/WGEC/WLD_ZINC.json?api_key=YAJjnPkiAFh1n3YazeZP";
+    $.ajax({
+      url: queryURL_arm,
+      method: "GET"
+    }).then(function(response) {
+      console.log(response);
+      var dailyPrice = response.dataset.data;
+      for (let i = 0; i < 5; i++) {
+        let c = Math.floor(56 * Math.random());
+        armEachPort.push(dailyPrice[c][1]);
+      }
+      console.log(armEachPort);
+    });
+    return armEachPort;
 }
 
-function fishPrice(nth_day) {
-  var fishEachPort = [];
-  queryURL_fish =
+// function oliveOilPrice(nth_day) {
+//   var ooEachPort = [];
+//   var queryURL_olive_oil =
+//     "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=YAJjnPkiAFh1n3YazeZP";
+//   $.ajax({
+//     url: queryURL_olive_oil,
+//     method: "GET"
+//   }).then(function(response) {
+//     console.log(response);
+//     var dailyPrice = response.dataset.data;
+//     var ooEachPort1 = dailyPrice[nth_day].slice(1);
+//     var ooEachPort2 = dailyPrice[nth_day + 1].slice(2);
+//     ooEachPort = ooEachPort1.concat(ooEachPort2);
+//     console.log(ooEachPort);
+//   });
+//   return ooEachPort;
+// }
+
+function oliveOilPrice() {
+  var oliveOilEachPort = [];
+  queryURL_oliveOil =
     "https://www.quandl.com/api/v3/datasets/WGEC/WLD_ZINC.json?api_key=YAJjnPkiAFh1n3YazeZP";
   $.ajax({
-    url: queryURL_fish,
+    url: queryURL_oliveOil,
     method: "GET"
   }).then(function(response) {
     console.log(response);
     var dailyPrice = response.dataset.data;
     for (let i = 0; i < 5; i++) {
       let c = Math.floor(56 * Math.random());
-      fishEachPort.push(dailyPrice[c]);
+      oliveOilEachPort.push(dailyPrice[c][1]);
     }
-    console.log(fishEachPort);
+    console.log(oliveOilEachPort);
   });
-  return fishEachPort;
+  return oliveOilEachPort;
 }
+
+function fishPrice(nth_day) {
+    var fishEachPort = [];
+    queryURL_fish =
+      "https://www.quandl.com/api/v3/datasets/WGEC/WLD_ZINC.json?api_key=YAJjnPkiAFh1n3YazeZP";
+    $.ajax({
+      url: queryURL_fish,
+      method: "GET"
+    }).then(function(response) {
+      console.log(response);
+      var dailyPrice = response.dataset.data;
+      for (let i = 0; i < 5; i++) {
+        let c = Math.floor(56 * Math.random());
+        fishEachPort.push(dailyPrice[c][1]);
+      }
+      console.log(fishEachPort);
+    });
+    return fishEachPort;
+}
+
 
 function cheesePrice(nth_day) {
   var queryURL_cheese =

@@ -52,7 +52,7 @@ $(document).ready(function () {
 
     $("#trade-buy").on("click", function () {
         var price = [];
-        selectedPort = $('#portPlace').val();
+        selectedPort = $('#portPlace').text();
         selectedGoods = $('#goodsOption :selected').val();
         qty = $("#quantity").val();
         //  alert(selectedPort);  
@@ -80,7 +80,7 @@ $(document).ready(function () {
 
     $("#trade-sell").on("click", function () {
         var price = [];
-        var selectedPort = $('#portPlace').val();
+        var selectedPort = $('#portPlace').text();
         selectedGoods = $('#goodsOption :selected').val();
         qty = $("#quantity").val();
         //  alert(selectedPort);  
@@ -151,7 +151,7 @@ $(document).ready(function () {
         switch (goods) {
             case "Cheese":
                 return array[0];
-            case "Olive Oil":
+            case "Olive_Oil":
                 return array[1];
             case "Fish":
                 return array[2];

@@ -234,17 +234,24 @@ function changePrice() {
     prices[2] = fishPrice(days);
     prices[3] = armPrice(days);
 
+    console.log(prices[0]);
+    console.log(prices[1]);
+    console.log(prices[2]);
+    console.log(prices[3]);
+
     setTimeout(function(){
         for (var i = 0; i < prices.length; i++) 
             for (var j = 0; j < prices[i].length; j++) {
+                console.log(prices[i].length);
                 var rand = Math.floor(Math.random()) * 2 + 0.5;
                 prices[i][j] *= rand;
+                prices[i][j] = parseInt(prices[i][j])
                 switch(j) {
-                    case 0: houPrices.push(); break;
-                    case 1: miaPrices.push(); break;
-                    case 2: lisPrices.push(); break;
-                    case 3: eliPrices.push(); break;
-                    case 4: mumPrices.push(); break;
+                    case 0: houPrices.push(prices[i][j]); break;
+                    case 1: miaPrices.push(prices[i][j]); break;
+                    case 2: lisPrices.push(prices[i][j]); break;
+                    case 3: eliPrices.push(prices[i][j]); break;
+                    case 4: mumPrices.push(prices[i][j]); break;
                     default: console.log("changePrice error");
                 }
             }
@@ -253,6 +260,6 @@ function changePrice() {
         localStorage.setItem("Lisbon", JSON.stringify(lisPrices));
         localStorage.setItem("Elizabeth", JSON.stringify(eliPrices));
         localStorage.setItem("Mumbai", JSON.stringify(mumPrices));
-    },9000);
+    },6000);
 }
 
