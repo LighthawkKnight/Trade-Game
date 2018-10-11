@@ -34,8 +34,13 @@ var elizabethPort = new port("elizabeth", {
     fish: 8,
     arms: 181
 });
+// $('#myModal').on('shown.bs.modal', function() {
+//     alert("i am in");
+//     $(document).off('focusin.modal');
+// });
 
 $(document).ready(function () {
+   
     $(".trade-btn").on("click", function () {
         var price;
         var totalCost;
