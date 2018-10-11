@@ -140,7 +140,7 @@ var Account = (function(){
                 if (error)
                     console.error("Save error", error);
                 else
-                    bootbox.alert("Save successful");
+                    alert("Save successful");
             }
         )
     }
