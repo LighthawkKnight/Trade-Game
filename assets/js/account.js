@@ -71,9 +71,9 @@ var Account = (function(){
         if (user) {
             loggedIn = true;
             closeLoginDialog();
-            document.querySelector("#login").style.display = "none";
-            document.querySelector("#logout").style.display = "block";
-            // test later
+            // No need since they're on separate screens
+            // document.querySelector("#login").style.display = "none";
+            // document.querySelector("#logout").style.display = "block";
             accountName = firebase.auth().currentUser;
             playerName = firebase.auth().currentUser.displayName;
             var ref = firebase.database().ref("/"+ accountName + "-" + playerName);
@@ -91,8 +91,9 @@ var Account = (function(){
                 localStorage.setItem('cargo', snapshot.val().cargo);
             }
             else {
-                
+
             }
+            gameStart();
         }
         else {   // log out
             if (loggedIn) {
@@ -149,7 +150,7 @@ var Account = (function(){
             firebase.auth().onAuthStateChanged(authStateChangeListener);
             // showModal() makes the user not able to interact with other elsements like a pop up box or an alert
             // Login button on top right
-            document.querySelector("#login").addEventListener("click", function (){
+            document.querySelector("#login-dialog").addEventListener("click", function (){
                 loginDialog.showModal();
             });
             // Logout button to top right

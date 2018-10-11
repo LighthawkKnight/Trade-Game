@@ -27,19 +27,23 @@ body, html {
     left: 40%;
 }
 
-h1 {
-    top: 20%;
+#headStart {
+    top: 40%;
     left:35%;
     position: absolute;
+    font-weight: 700;
+    color: White;
+
 }
 
 /*----------------------------- index --------------------------------------*/
 
-.bg2 {
+#game-map {
     background-image: url("http://blogs.discovermagazine.com/d-brief/files/2016/11/Mercator_projection_SW.jpg");
 
     /* Full height */
     height: 100%; 
+    width: 100%;
 
     /* Center and scale the image nicely */
     background-position: center;
@@ -47,44 +51,370 @@ h1 {
     background-size: cover;  
 }
 
+/*the current ports info*/ 
 #currentInfo {
     float: right;
+    border-radius: 30%;
 }
 
-#port1 {
-    position: absolute;
-    left: 22%;
-    top: 35%;
+/*style the button*/
+.MarketButton {
+    background-color: peachpuff;
+    color:black;
+    font-family: "Ivory" ;
 }
 
-#port2 {
-    position: absolute;
-    left: 27%;
-    top: 38.3%;
+
+
+.button1:hover {
+    border-radius: 45%;
+    background-color: red;
+    color: white;
+    transition-duration: 0.4s;
 }
 
-#port3 {
-    position: absolute;
-    left: 46%;
-    top: 30%;
+.button2:hover {
+    border-radius: 45%;
+    background-color: green;
+    color: white;
+    transition-duration: 0.4s;
 }
 
-#port4 {
-    position: absolute;
-    left: 55%;
-    top: 66%;
+.button3:hover {
+    border-radius: 45%;
+    background-color: blue;
+    color: white;
+    transition-duration: 0.4s;
 }
 
-#port5 {
-    position: absolute;
-    right: 29%;
-    top: 40%;
-
+.button4:hover {
+    border-radius: 45%;
+    background-color: purple;
+    color: white;
+    transition-duration: 0.4s;
 }
 
+.button5:hover {
+    border-radius: 45%;
+    background-color: yellow;
+    color: white;
+    transition-duration: 0.4s;
+}
+
+
+/*options shown after clicking the port option button*/
 .portOptions {
     display: inline-block;
     text-align: center;
     margin: 40px;
     padding: 30px;
+}
+
+/* port option buttons */
+#bp1 {
+    
+position: absolute;
+top: 33%;
+left: 22%;
+}
+    
+#bp2 {
+    position: absolute;
+    top: 36.3%;
+    left: 27%;
+}
+
+#bp3 {
+    position: absolute;
+    left: 46%;
+    top: 28%;
+}
+
+#bp4 {
+    position: absolute;
+    left: 55%;
+    top: 64%;
+}
+
+#bp5 {
+    position: absolute;
+    right: 29%;
+    top: 38%; 
+}
+
+/*pop up box location and style */
+#TradeOptions {
+    position: absolute;
+    top: 5%;
+    left: 3%;
+    border: 1px solid green;
+    display: inline-block;
+}
+
+.buttonTrade {
+    font-size: 24px;
+    transition-duration: 0.4s;
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.buttonLocation {
+    font-size: 24px;
+    transition-duration: 0.4s;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    
+}
+
+#logout {
+    font-size: 24px;
+    transition-duration: 0.4s;
+    background-color: red; /* Green */
+    color: white;
+}
+
+#save {
+    font-size: 24px;
+    transition-duration: 0.4s;
+    background-color: blue; /* Green */
+    color: white;
+}
+
+
+.dropdown {
+    position: absolute;
+    top: 60%;
+    left: 40%;
+    font-size: 24px;
+}
+/*---ports placed in a fixed location-----*/
+/*create an image with a button*/
+
+/* port 1 */
+.port1 {
+    position: absolute;
+    left: 22%;
+    top: 35%;
+    color: brown;
+    height: 80px;
+    width: 80px;
+}
+
+.port1 img {
+    width: 100%;
+    height: auto;
+}
+
+.port1 .btn {
+    opacity: .5;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 16px;
+    padding: 2px 3px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+/* port 2 */
+.port2 {
+    position: absolute;
+    left: 27%;
+    top: 38.3%;
+    height: 80px;
+    width: 80px;
+}
+
+.port2 img {
+    width: 100%;
+    height: auto;
+}
+.port2 .btn {
+    opacity: .5;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 16px;
+    padding: 2px 3px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+/* port 3 */
+.port3 {
+    position: absolute;
+    left: 46%;
+    top: 30%;
+    height: 80px;
+    width: 80px;
+}
+
+.port3 img {
+    width: 100%;
+    height: auto;
+}
+.port3 .btn {
+    opacity: .5;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 16px;
+    padding: 2px 3px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+/* port 4 */
+.port4 {
+    position: absolute;
+    left: 55%;
+    top: 66%;
+    height: 80px;
+    width: 80px;
+}
+
+.port4 img {
+    width: 100%;
+    height: auto;
+}
+.port4 .btn {
+    opacity: .5;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 16px;
+    padding: 2px 3px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+/* port 5 */
+.port5 {
+    position: absolute;
+    right: 29%;
+    top: 40%;
+    height: 80px;
+    width: 80px;
+}
+
+.port5 img {
+    width: 100%;
+    height: auto;
+}
+.port5 .btn {
+    
+    opacity: .5;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 16px;
+    padding: 2px 3px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+
+}
+
+.stock {
+    position: absolute;
+    left: 3%;
+    top: 90%;
+    height: 80px;
+    width: 80px;
+}
+
+.stock img {
+    width: 100%;
+    height: auto;
+}
+.stock .btn {
+    
+    opacity: .7;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #f1f1f1;
+    color: black;
+    font-size: 16px;
+    padding: 2px 3px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Qi's API map */
+#map {
+    height: 100vh;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
+}
+
+/* K's trade screen */
+h1 {
+    margin-left: 250px;
+}
+
+.container {
+    margin-left: 15%;
+    font-family: 'Kelly Slab', cursive;
+    
+
+}
+
+#trade-screen {  
+    background-image: url("../image/oldstylepaper.jpg");
+    background-repeat: no-repeat;
+    background-size: 37% 120%;
+    
+    
+}
+
+
+/* Jeff's changes */
+#Login {
+    display: none;
+}
+
+
+#api-map {
+    display: none;
+}
+
+#trade-screen {
+    display: none;
 }

@@ -19,6 +19,10 @@ const   HouToMia = 10,
         LisToEli = 55,
         EliToMum = 43;
 
+
+var ship;
+var timer;
+
 function displayPrices(){
     // Display to buy and sell screens
     // Me or Qi may do this
@@ -29,10 +33,6 @@ function sell(name, amount) {
     if (item) {
         if (amount <= item[1]) {
             Ship.setCargo(name, item[1] - amount);
-<<<<<<< HEAD
-            // may have to add a listener, based on the database perhaps
-=======
->>>>>>> c53a6f920f8efd30b863fc75e7a9771740c49ae6
             Ship.setItem("money", Ship.money += calculatePrice(name, amount));
         }
         else
@@ -120,23 +120,44 @@ function calculateTime(start, end) {
     return null;
 }
 
-class Voyage {
+function initializeClass(){
+    // Defaults: location = "Houston", hull = 5000, money = 1000, hold = 100, fuel = 100, time = 0
+    if (localStorage.getItem("money") === null && localStorage.getItem("location") === null) {
+        ship = new Ship();
+        timer = new Timer();
+    }
+    else {
+        // location = "Houston", hull = 5000, money = 1000, hold = 100, fuel = 100
+        ship = new Ship(localStorage.getItem("location"), localStorage.getItem("hull"), localStorage.getItem("money"), localStorage.getItem("hold"), localStorage.getItem("fuel"), JSON.parse(localStorage.getItem("cargo")));
+        timer = new Timer();
+    }
 
-static voyage(destination, weather) {
-    // Calculate distance from current location to 'destination'
-    // Calculate weather factors
-    // Use those to determine water usage / hull damage / cargo loss
-    // On nav button click
-    document.querySelector('#navigate-id').addEventListener("click", function() {
-<<<<<<< HEAD
-        ship.setItem("location", destination);
-        timer.setTime(calculateTime(Ship.location, destination));
-=======
-        Ship.setItem("location", destination);
-        Timer.setTime(calculateTime(Ship.location, destination));
->>>>>>> c53a6f920f8efd30b863fc75e7a9771740c49ae6
-    });
+    // Get current location and find the id for it and do something with it
+    // Make it glow or w/e
+    // ids:  port1: Houston, port2: Miami, port3: Lisbon, port4: Elizabeth, port5: Mumbai
+
+
 }
 
+function currentLocation() {
+    // filter: grayscale(100%);
+    switch(ship.location){
+        case "Houston":
+            document.querySelector(".port1")
+            break;
+        case "Miami":
+            document.querySelector(".port2")
+            break;
+        case "Lisbon":
+            break;
+        case "Elizabeth":
+            break;
+        case "Mumbai":
+            break;
+    }
 }
 
+function voyage(destination) {
+    timer.setTime(calculateTime(ship.location, destination));
+    ship.setItem("location", destination);
+}

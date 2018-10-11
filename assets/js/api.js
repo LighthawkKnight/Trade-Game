@@ -402,7 +402,7 @@ function initMap() {
       var intervalID = window.setInterval(function() {
         var icons = line.get("icons");
         count = (count + 1) % 200;
-        console.log("count = " + count);
+        console.log("count = " + count);   // if (count === 199)
         if (count === 0) {
           // stop the animate and initial
           clearInterval(intervalID);
@@ -410,6 +410,11 @@ function initMap() {
           removeRedLine();
           marinePlanCoordinates = [startPort];
           mode = "";
+          // Jeff's addition
+          document.querySelector('#api-map').style.display = "none";
+          document.querySelector('#game-map').style.display = "block";
+          console.log(getStartPort());
+          voyage(getStartPort());
         }
         var icons = line.get("icons");
         icons[0].offset = count / 2 + "%";
@@ -566,4 +571,22 @@ function cheesePrice(nth_day) {
     }
     return cheeseEachPort;
   });
+}
+
+
+function getStartPort(){
+  switch(startPort) {
+    case 0:
+      return "Houston";
+    case 1:
+      return "Miami";
+    case 5:
+      return "Lisbon";
+    case 9:
+      return "Elizabeth";
+    case 11:
+      return "Mumbai";
+    default:
+      console.log("Invalid startPort: " + startPort);
+  }
 }
