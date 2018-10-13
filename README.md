@@ -1,4 +1,4 @@
-# Trade-Game
+# Winds of Trade
 Trading Game
 
 Trade goods around the world!
