@@ -1,7 +1,9 @@
 # Winds of Trade
-Trading Game
 
 Trade goods around the world!
+
+Try it here:  https://jrdaquioag.github.io/Winds-Of-Trade/
+
 
 ## How to play:
 
