@@ -2,7 +2,7 @@
 
 Trade goods around the world!
 
-Try it here:  https://jrdaquioag.github.io/Winds-Of-Trade/
+Try it here:  https://jrdaquioag.github.io/Winds-of-Trade/
 
 
 ## How to play:
